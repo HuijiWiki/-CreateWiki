@@ -32,7 +32,7 @@ class CreateWiki{
         $ruleRet = $this->checkRule($this->wikiname, $this->domainprefix);
         if($ruleRet != 0){
             //the input from user is not valid, need to ask him to do it again
-            return false;
+            return $ruleRet;
         }
         $sessionRet = $this->checkUserSession();
         if($sessionRet == false){
@@ -51,24 +51,24 @@ class CreateWiki{
             if($installRet!=0){
                 //revoke directory creation
                 //revoke install
-                $this->removeWikiDir($this->domainprefix);
-                $this->removeWikiInstall($this->domainprefix, $this->wikiname);
+                 $this->removeWikiDir($this->domainprefix);
+                 $this->removeWikiInstall($this->domainprefix, $this->wikiname);
                 return $installRet;
             }
             $updateRet = $this->updateLocalSettings($this->domainprefix, $this->wikiname);
             if($updateRet!=0){
                 //revoke all
-                $this->removeWikiDir($this->domainprefix);
-                $this->removeWikiInstall($this->domainprefix, $this->wikiname);
+                 $this->removeWikiDir($this->domainprefix);
+                 $this->removeWikiInstall($this->domainprefix, $this->wikiname);
                 return $updateRet;
             }
             $this->promote($this->domainprefix, $sessionRet);
             
             //redirect to the newly created wiki
             
-             return 0; 
+             
         }
-        
+        return 0; 
     }
     
     public function checkUserPreviliage(){
@@ -77,25 +77,25 @@ class CreateWiki{
     
     public function checkRule($name, $domain, $venue=null, $language=null, $type=null){
         $status = 0;
-	if( strlen( $domain ) === 0 ) {
-				// empty field
+    if( strlen( $domain ) === 0 ) {
+                // empty field
             $status = ErrorMessage::ERROR_DOMAIN_IS_EMPTY;
-	}
-	elseif ( strlen( $domain ) < 3 ) {
-				// too short
+    }
+    elseif ( strlen( $domain ) < 3 ) {
+                // too short
             $status = ErrorMessage::ERROR_DOMAIN_TOO_SHORT;
-	}
-	elseif ( strlen( $domain ) > 50 ) {
-				// too long
-	    $status = ErrorMessage::ERROR_DOMAIN_TOO_LONG;
-	}
-		
-	else {
+    }
+    elseif ( strlen( $domain ) > 50 ) {
+                // too long
+        $status = ErrorMessage::ERROR_DOMAIN_TOO_LONG;
+    }
+        
+    else {
             if( DBUtility::domainExists( $domain) ) {
               $status = ErrorMessage::ERROR_DOMAIN_NAME_TAKEN;
             }
-	}
-	return $status;
+    }
+    return $status;
     }
     
     
@@ -109,32 +109,36 @@ class CreateWiki{
         ini_set('display_errors', 1);
 
         $name = $domainprefix;
-	
-	$structure = "/var/www/virtual/".$name;
-	
+    
+    $structure = "/var/www/virtual/".$name;
+    
 
         // To create the nested structure, the $recursive parameter 
         // to mkdir() must be specified.
-	$oldmask = umask(0);
-	if (!mkdir($structure, 0777,true)) {
-		return ErrorMessage::ERROR_FAIL_FOLDER;
-	}
-	if(!mkdir($structure."/uploads",0777,true)){
-		return ErrorMessage::ERROR_FAIL_CREATE_UPLOAD;
-	}
-	if(!mkdir($structure."/cache",0777,true)){
-		return ErrorMessage::ERROR_FAIL_CREATE_CACHE;
-	}
-        //the source link from the linked folder
-        if($srcDir == null){
-         $srcDir = "/var/www/src/extensions/SocialProfile";   
-        }
-	
-	self::xcopy($srcDir."/avatars", $structure."/uploads/avatars");
-	self::xcopy($srcDir."/awards", $structure."/uploads/awards");
-	umask($oldmask);
-	exec('ln -s /var/www/src/* '.$structure);
-	return 0;
+    $oldmask = umask(0);
+    if (!mkdir($structure, 0777,true)) {
+        return ErrorMessage::ERROR_FAIL_FOLDER;
+    }
+    if(!mkdir($structure."/uploads",0777,true)){
+        return ErrorMessage::ERROR_FAIL_CREATE_UPLOAD;
+    }
+    if(!mkdir($structure."/cache",0777,true)){
+        return ErrorMessage::ERROR_FAIL_CREATE_CACHE;
+    }
+    //the source link from the linked folder
+    // if($srcDir == null){
+    //  $srcDir = "/var/www/src/extensions/SocialProfile";   
+    // }
+    
+    // self::xcopy($srcDir."/avatars", $structure."/uploads/avatars");
+    // self::xcopy($srcDir."/awards", $structure."/uploads/awards");    
+
+    umask($oldmask);
+    // use shared avatars and awards from the main site.
+    exec('ln -s /var/www/html/uploads/avatars '.$structure."/uploads/avatars");
+    exec('ln -s /var/www/html/uploads/awards '.$structure."/uploads/awards");
+    exec('ln -s /var/www/src/* '.$structure);
+    return 0;
     }
     
     /** reomove a created wiki directory. 
@@ -197,41 +201,41 @@ class CreateWiki{
     }
     
     
-	/**Check the current user session
+    /**Check the current user session
          * 
          * @return boolean?int False if no user found, userid if found user session
          */
-	public function checkUserSession(){
-		$session_cookie = 'huiji_session';
-		if(!isset($_COOKIE[$session_cookie]))
-		{
-			return false;
-		}
-		else
-		{
-			$ch = curl_init();
-			$api_end = 'http://test.huiji.wiki/api.php?action=query&format=xml&meta=userinfo';
-			curl_setopt($ch, CURLOPT_URL, $api_end);
-			curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_COOKIE, $session_cookie . '=' . $_COOKIE[$session_cookie]);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			$ret = curl_exec ($ch);
+    public function checkUserSession(){
+        $session_cookie = 'huiji_session';
+        if(!isset($_COOKIE[$session_cookie]))
+        {
+            return false;
+        }
+        else
+        {
+            $ch = curl_init();
+            $api_end = 'http://test.huiji.wiki/api.php?action=query&format=xml&meta=userinfo';
+            curl_setopt($ch, CURLOPT_URL, $api_end);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_COOKIE, $session_cookie . '=' . $_COOKIE[$session_cookie]);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $ret = curl_exec ($ch);
 
-			curl_close ($ch);
+            curl_close ($ch);
 
-			if(preg_match('/id="(\d+)"/',$ret,$id) && $id[1]){
-  				#pop a simple window for user to wait 
-			#	return $id;
- 				preg_match('/name="(.*?)"/',$ret,$usr);
-				return $usr[1];
-				
-			}
-			else{
-				return false;
+            if(preg_match('/id="(\d+)"/',$ret,$id) && $id[1]){
+                #pop a simple window for user to wait 
+            #   return $id;
+                preg_match('/name="(.*?)"/',$ret,$usr);
+                return $usr[1];
+                
+            }
+            else{
+                return false;
 
-			}
-		}
-	}
+            }
+        }
+    }
         
         /** Replace the current LocalSettings.php after it is generated
          * 
@@ -239,97 +243,98 @@ class CreateWiki{
          * @param string $targetDir target directory to copy template to
          */
 
-	public function copyTemplateLocalSetting($srcDir=null, $targetDir=null){
-		if($srcDir == null){
-			$srcDir = '/var/www/src/LocalSettings.php.example';
-		}
-		if($targetDir == null){
-			$targetDir = './LocalSettings.php';
-		}
-		copy($srcDir,$targetDir);
-	}
+    public function copyTemplateLocalSetting($srcDir=null, $targetDir=null){
+        if($srcDir == null){
+            $srcDir = '/var/www/src/LocalSettings.php.example';
+        }
+        if($targetDir == null){
+            $targetDir = './LocalSettings.php';
+        }
+        copy($srcDir,$targetDir);
+    }
 
 
 
-	/**update the localsetting.s.php
+    /**update the localsetting.s.php
          * 
          * @param type $domainprefix
          * @param type $wikiname
          * @param string $fileName
          * @return int 0 if suceessfu.
          */
-	public function updateLocalSettings($domainprefix, $wikiname,$fileName=null ){
-		#$domainDir = str_replace(".","_",$domainprefix);
-		$fileName = '/var/www/virtual/'.$domainprefix.'/LocalSettings.php';
-		$templateName = '/var/www/src/LocalSettings.php.example';
-		self::copyTemplateLocalSetting($templateName,$fileName);
+    public function updateLocalSettings($domainprefix, $wikiname,$fileName=null ){
+        #$domainDir = str_replace(".","_",$domainprefix);
+        $fileName = '/var/www/virtual/'.$domainprefix.'/LocalSettings.php';
+        $templateName = '/var/www/src/LocalSettings.php.example';
+        self::copyTemplateLocalSetting($templateName,$fileName);
 
-		$file_contents = file_get_contents($fileName);
-		$file_contents = str_replace("%wikiname%",$wikiname,$file_contents);
-		$file_contents = str_replace("%domainprefix%",$domainprefix,$file_contents);
-		file_put_contents($fileName,$file_contents);
+        $file_contents = file_get_contents($fileName);
+        $file_contents = str_replace("%wikiname%",$wikiname,$file_contents);
+        $file_contents = str_replace("%domainprefix%",$domainprefix,$file_contents);
+        file_put_contents($fileName,$file_contents);
                 
-		self::updateDatabase($domainprefix);
+        self::updateDatabase($domainprefix);
                 return 0; 
-	}
-	
+    }
+    
 
-	/**
-	* Run the update.php in /maintenance.php to create and register necessary dbs for extensions 
-	* $domainprefix : the domain prefix for the new wiki
-	*/
-	public function updateDatabase($domainprefix){
-		$command = "php /var/www/virtual/".$domainprefix."/maintenance/update.php  --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --quick --doshared";
-		exec($command);
-		exec($command);
-	}
-	
-	/**
-	* promote a user to admin stage of the wiki
-	* $domainprefix : the domain prefix for the new wiki
-	* $username : the user name of the user in glabal table. 
-	*/
+    /**
+    * Run the update.php in /maintenance.php to create and register necessary dbs for extensions 
+    * $domainprefix : the domain prefix for the new wiki
+    */
+    public function updateDatabase($domainprefix){
+        $command = "php /var/www/virtual/".$domainprefix."/maintenance/update.php  --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --quick --doshared";
+        exec($command);
+        exec($command);
+    }
+    
+    /**
+    * promote a user to admin stage of the wiki
+    * $domainprefix : the domain prefix for the new wiki
+    * $username : the user name of the user in glabal table. 
+    */
 
-	public function promote($domainprefix, $username){
-		$command = "php /var/www/virtual/".$domainprefix."/maintenance/createAndPromote.php --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --force --bureaucrat --sysop ".$username;
-		exec($command);
-	}
+    public function promote($domainprefix, $username){
+        $command = "php /var/www/virtual/".$domainprefix."/maintenance/createAndPromote.php --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --force --bureaucrat --sysop ".$username;
+        exec($command);
+    }
 
-	
+    /** 
+    * recursively copy all files from one folder to another.
+    */
+    public function xcopy($source, $dest, $permissions = 0777)
+    {
+        // Check for symlinks
+        if (is_link($source)) {
+            return symlink(readlink($source), $dest);
+        }
 
-	public function xcopy($source, $dest, $permissions = 0777)
-	{
-	    // Check for symlinks
-	    if (is_link($source)) {
-	        return symlink(readlink($source), $dest);
-	    }
+        // Simple copy for a file
+        if (is_file($source)) {
+            return copy($source, $dest);
+        }
 
-	    // Simple copy for a file
-	    if (is_file($source)) {
-	        return copy($source, $dest);
-	    }
+        // Make destination directory
+        if (!is_dir($dest)) {
+            mkdir($dest, $permissions);
+        }
 
-	    // Make destination directory
-	    if (!is_dir($dest)) {
-	        mkdir($dest, $permissions);
-	    }
+        // Loop through the folder
+        $dir = dir($source);
+        while (false !== $entry = $dir->read()) {
+            // Skip pointers
+            if ($entry == '.' || $entry == '..') {
+                continue;
+            }
 
-	    // Loop through the folder
-	    $dir = dir($source);
-	    while (false !== $entry = $dir->read()) {
-	        // Skip pointers
-	        if ($entry == '.' || $entry == '..') {
-	            continue;
-	        }
+            // Deep copy directories
+            self::xcopy("$source/$entry", "$dest/$entry", $permissions);
+        }
 
-	        // Deep copy directories
-	        self::xcopy("$source/$entry", "$dest/$entry", $permissions);
-	    }
-
-	    // Clean up
-	    $dir->close();
-	    return true;
-	}
+        // Clean up
+        $dir->close();
+        return true;
+    }
 
 
 
