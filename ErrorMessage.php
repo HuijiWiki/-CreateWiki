@@ -28,8 +28,15 @@ class ErrorMessage{
         const ERROR_REVOKE_INSTALL                         = 13;
         
         //DB errors;
-        
+        //to-do: add more db errors and modify the db class 
+        //using pdd. http://www.binpress.com/tutorial/using-php-with-mysql-the-right-way/17
         const ERROR_DB_CONNECT                             = 14;
+        
+        
+        //INVITATION CODE ERROR
+        const INV_NOT_FOUND                                = 15;
+        const INV_USED                                     = 16;
+        
         
         
         

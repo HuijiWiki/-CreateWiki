@@ -27,7 +27,7 @@ class DBUtility
       if ($query === false) 
       {
          die('Query Error');
-         $con->close();
+         $conn->close();
       }
 
       // extract the value
@@ -99,13 +99,16 @@ class DBUtility
       $db_name = "huiji_".str_replace(".","_",$name);
       $sql = "DROP DATABASE IF EXISTS ".$db_name;
       if ($conn->query($sql) === TRUE) {
-         
+         $conn->close();
          return TRUE;
          } else {
            echo "Error: " . $sql . "<br>" . $conn->error;
+           $conn->close();
            return FALSE;
          }
-      $conn->close();
+      
    }
+   
+   
 }
 ?>
