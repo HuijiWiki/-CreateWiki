@@ -52,15 +52,15 @@ class DBUtility
    *
    */
 
-   public static function insertGlobalDomainPrefix($domainprefix, $domainname){
+   public static function insertGlobalDomainPrefix($domainprefix, $domainname, $domaintype, $domaindsp){
       //huiji_domain_all is the database to store the huiji_domain_all . 
-      $db_name = 'huiji_domain_all';
+      $db_name = 'huiji';
       $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd, $db_name);
       if($conn->connect_error)
       {
          die("Connection Failed");
       }
-      $sql = "INSERT INTO domains (domain_prefix, domain_name, status) VALUES ('{$domainprefix}', '{$domainname}', 'TRUE')";
+      $sql = "INSERT INTO domain (domain_prefix, domain_name, domain_type, domain_dsp, domain_status) VALUES ('{$domainprefix}', '{$domainname}', '{$domaintype}', '{$domaindsp}', 'TRUE')";
      
       if ($conn->query($sql) === TRUE) {
          
@@ -73,7 +73,7 @@ class DBUtility
    }
 
    public static function checkDomainExists($domainprefix){
-      $db_name = 'huiji_domain_all';
+      $db_name = 'huiji';
 
       $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd, $db_name);
       if($conn->connect_error)

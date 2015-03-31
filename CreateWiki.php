@@ -47,7 +47,7 @@ class CreateWiki{
                 $this->removeWikiDir($this->domainprefix);
                 return $dirRet;
             }
-            $installRet = $this->newWikiInstall($this->domainprefix, $this->wikiname);
+            $installRet = $this->newWikiInstall($this->domainprefix, $this->wikiname, $this->domaintype, $this->domaindsp);
             if($installRet!=0){
                 //revoke directory creation
                 //revoke install
@@ -168,7 +168,7 @@ class CreateWiki{
      * @return int error code if fails, 0 if successful
      */
     
-   public function newWikiInstall( $domainprefix, $wikiname){
+   public function newWikiInstall( $domainprefix, $wikiname, $domaintype, $domaindsp){
        //create wll the script params
         $domainDir = str_replace(".","_",$domainprefix);
         $name = "huiji_".$domainDir;
@@ -186,7 +186,7 @@ class CreateWiki{
         if(!exec($install_cmd)){
             return ErrorMessage::ERROR_FAIL_EXE_INSTALL_CMD;
         }
-        DBUtility::insertGlobalDomainPrefix($domainprefix, $wikiname);
+        DBUtility::insertGlobalDomainPrefix($domainprefix, $wikiname, $domaintype, $domaindsp);
   
         return 0;
     }
