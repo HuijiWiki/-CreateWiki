@@ -29,10 +29,8 @@ class DBUtility
          die('Query Error');
          $conn->close();
       }
-
       // extract the value
-      $row = $query->fetch_object();
-      $dbExists = (bool) ($row->exists > 0);
+      $dbExists = (bool) ($query->num_rows > 0);
       $conn->close();
       #echo "value :".$dbExists;
       return $dbExists;
