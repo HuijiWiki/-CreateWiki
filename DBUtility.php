@@ -20,7 +20,7 @@ class DBUtility
       // statement to execute
 
       $db_name = "huiji";
-      $sql = 'SELECT `domain_id` AS `exists` FROM HUIJI.DOMAIN WHERE DOMAIN.DOMAIN_PREFIX=\''.$$name.'\'';
+      $sql = 'SELECT `domain_id` AS `exists` FROM HUIJI.DOMAIN WHERE DOMAIN.DOMAIN_PREFIX=\''.$name.'\'';
       # echo  $sql;
       // execute the statement
       $query = $conn->query($sql);
@@ -32,7 +32,7 @@ class DBUtility
 
       // extract the value
       $row = $query->fetch_object();
-      $dbExists = (bool) $row->exists;
+      $dbExists = (bool) ($row->exists > 0);
       $conn->close();
       #echo "value :".$dbExists;
       return $dbExists;

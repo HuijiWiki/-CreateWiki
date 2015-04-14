@@ -141,7 +141,7 @@ class CreateWiki{
     return 0;
     }
     
-    /** reomove a created wiki directory. 
+    /** remove a created wiki directory. 
      * 
      * @param type $domainprefix, domain prefix entered by users
      * @return 0 if successful, errorcode if not. 
@@ -150,7 +150,7 @@ class CreateWiki{
         $structure = "/var/www/virtual/".$domainprefix;
         $cmd = "rm -r ".$structure;
         exec($cmd, $output, $return_var);
-        if(return_var){
+        if($return_var){
             return ErrorMessage::ERROR_REMOVE_DIR;
         }
         return 0;
