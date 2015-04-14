@@ -178,7 +178,7 @@ class CreateWiki{
         $confpath = " --confpath=".$structure;
         $pass = " --pass=123123 ";
         $install_db = " --installdbuser=".Confidential::$username." --installdbpass=".Confidential::$pwd;
-        $db_info= " --dbserver=localhost --dbname=".$name;
+        $db_info= " --dbserver=rdsvylp0ttvq4k2ris0ye.mysql.rds.aliyuncs.com --dbname=huiji_sites --dbprefix=".$domainDir;
         $script_path = " --scriptpath=";
         $lang = " --lang=zh-cn";
         $install_cmd = $install_cmd.$name_admin.$confpath.$pass.$install_db.$db_info.$script_path.$lang;
@@ -214,7 +214,7 @@ class CreateWiki{
         else
         {
             $ch = curl_init();
-            $api_end = 'http://test.huiji.wiki/api.php?action=query&format=xml&meta=userinfo';
+            $api_end = 'http://home.huiji.wiki/api.php?action=query&format=xml&meta=userinfo';
             curl_setopt($ch, CURLOPT_URL, $api_end);
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_COOKIE, $session_cookie . '=' . $_COOKIE[$session_cookie]);

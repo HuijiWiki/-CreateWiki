@@ -19,8 +19,8 @@ class DBUtility
       }
       // statement to execute
 
-      $db_name = "huiji_".str_replace(".","_",$name);
-      $sql = 'SELECT COUNT(*) AS `exists` FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMATA.SCHEMA_NAME=\''.$db_name.'\'';
+      $db_name = "huiji";
+      $sql = 'SELECT `domain_id` AS `exists` FROM HUIJI.DOMAIN WHERE DOMAIN.DOMAIN_PREFIX=\''.$$name.'\'';
       # echo  $sql;
       // execute the statement
       $query = $conn->query($sql);
