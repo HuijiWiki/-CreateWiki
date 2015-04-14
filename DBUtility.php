@@ -83,7 +83,7 @@ class DBUtility
       $conn->close();
    }
    
-   /**drop a DB
+   /**drop a DB. TODO: Change this to "drop a bunch of tables".
     * 
     * @param type $name the domain prefix
     * @return Boolean. True if sucessful False if not. 
@@ -108,7 +108,5 @@ class DBUtility
          }
       
    }
-   
-   
 }
 ?>

@@ -10,7 +10,7 @@
 require_once('Confidential.php');
 require_once('ErrorMessage.php');
 class InvitationDB {
-    const INV_DB = "invitationDB";
+    const INV_DB = "invitation";
     const INV_TB = "invitation_code_table";
     //put your code here
     
