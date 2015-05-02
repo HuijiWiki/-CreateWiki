@@ -48,6 +48,8 @@ class DBUtility
    *$domainprefix : the new domain prefix
    *$domainname : the new domain name 
    *
+   * @return mixed. FALSE if failed to insert, id if successfully inserted.
+   *
    */
 
    public static function insertGlobalDomainPrefix($domainprefix, $domainname, $domaintype, $domaindsp){
@@ -61,8 +63,9 @@ class DBUtility
       $sql = "INSERT INTO domain (domain_prefix, domain_name, domain_type, domain_dsp, domain_status) VALUES ('{$domainprefix}', '{$domainname}', '{$domaintype}', '{$domaindsp}', 'TRUE')";
      
       if ($conn->query($sql) === TRUE) {
+         $last_id = $conn->insert_id;
          $conn->close();
-         return TRUE;
+         return $last_id;
       } else {
          echo "Error: " . $sql . "<br>" . $conn->error;
          $conn->close();
@@ -88,23 +91,28 @@ class DBUtility
     * @return Boolean. True if sucessful False if not. 
     */
    public static function dropDB($name){
-      $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd);
-      if($conn->connect_error)
-      {
-         die("Connection Failed");
-      }
-      // statement to execute
-
-      $db_name = "huiji_".str_replace(".","_",$name);
-      $sql = "DROP DATABASE IF EXISTS ".$db_name;
-      if ($conn->query($sql) === TRUE) {
-         $conn->close();
-         return TRUE;
-         } else {
-           echo "Error: " . $sql . "<br>" . $conn->error;
-           $conn->close();
-           return FALSE;
+      if (Confidential::IS_PRODUCTION){
+         //TODO
+      } else{
+         $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd);
+         if($conn->connect_error)
+         {
+            die("Connection Failed");
          }
+         // statement to execute
+
+         $db_name = "huiji_".str_replace(".","_",$name);
+         $sql = "DROP DATABASE IF EXISTS ".$db_name;
+         if ($conn->query($sql) === TRUE) {
+            $conn->close();
+            return TRUE;
+         } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+            $conn->close();
+            return FALSE;
+         }         
+      }
+
       
    }
 }

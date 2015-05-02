@@ -7,8 +7,8 @@ class CreateWiki{
     public $wikiname;
     public $domaintype;
     public $domaindsp; 
-    
-    public const PRODUCTION = true;
+
+    private $id;
     /** Constructor
      *
      * 
@@ -178,7 +178,11 @@ class CreateWiki{
         $confpath = " --confpath=".$structure;
         $pass = " --pass=123123 ";
         $install_db = " --installdbuser=".Confidential::$username." --installdbpass=".Confidential::$pwd;
-        $db_info= " --dbserver=rdsvylp0ttvq4k2ris0ye.mysql.rds.aliyuncs.com --dbname=huiji_sites --dbprefix=".$domainDir;
+        if (Confidential::IS_PRODUCTION){
+            $db_info= " --dbserver=rdsvylp0ttvq4k2ris0ye.mysql.rds.aliyuncs.com --dbname=huiji_sites --dbprefix=".$domainDir;
+        } else {
+            $db_info= " --dbserver=localhost --dbname=".$name;
+        }
         $script_path = " --scriptpath=";
         $lang = " --lang=zh-cn";
         $install_cmd = $install_cmd.$name_admin.$confpath.$pass.$install_db.$db_info.$script_path.$lang;
@@ -186,7 +190,7 @@ class CreateWiki{
         if(!exec($install_cmd)){
             return ErrorMessage::ERROR_FAIL_EXE_INSTALL_CMD;
         }
-        DBUtility::insertGlobalDomainPrefix($domainprefix, $wikiname, $domaintype, $domaindsp);
+        $this->id = DBUtility::insertGlobalDomainPrefix($domainprefix, $wikiname, $domaintype, $domaindsp);
   
         return 0;
     }
@@ -214,7 +218,11 @@ class CreateWiki{
         else
         {
             $ch = curl_init();
-            $api_end = 'http://home.huiji.wiki/api.php?action=query&format=xml&meta=userinfo';
+            if(Confidential::IS_PRODUCTION){
+                $api_end = 'http://home.huiji.wiki/api.php?action=query&format=xml&meta=userinfo';
+            }else{
+                $api_end = 'http://test.huiji.wiki/api.php?action=query&format=xml&meta=userinfo';
+            }
             curl_setopt($ch, CURLOPT_URL, $api_end);
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_COOKIE, $session_cookie . '=' . $_COOKIE[$session_cookie]);
@@ -271,6 +279,7 @@ class CreateWiki{
         $file_contents = file_get_contents($fileName);
         $file_contents = str_replace("%wikiname%",$wikiname,$file_contents);
         $file_contents = str_replace("%domainprefix%",$domainprefix,$file_contents);
+        $file_contents = str_replace("%wikiid%",$this->id,$file_contents);
         file_put_contents($fileName,$file_contents);
                 
         self::updateDatabase($domainprefix);
