@@ -8,7 +8,7 @@ class CreateWiki{
     public $domaintype;
     public $domaindsp; 
     
-    
+    public const PRODUCTION = true;
     /** Constructor
      *
      * 

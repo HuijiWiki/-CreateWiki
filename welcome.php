@@ -33,7 +33,7 @@ if($invCheck == ErrorMessage::INV_USED){
 $wiki = new CreateWiki($domainprefix, $wikiname, $type, $dsp);
 $ret = $wiki->create();
 if($ret == ErrorMessage::ERROR_NOT_LOG_IN){
-   header( 'Location: http://test.huiji.wiki/wiki/%E7%89%B9%E6%AE%8A:%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95' ) ;
+   header( 'Location: http://home.huiji.wiki/wiki/%E7%89%B9%E6%AE%8A:%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95' ) ;
 }
 elseif($ret == 0){
    Invitation::expireInvitation($invcode);

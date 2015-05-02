@@ -61,12 +61,13 @@ class DBUtility
       $sql = "INSERT INTO domain (domain_prefix, domain_name, domain_type, domain_dsp, domain_status) VALUES ('{$domainprefix}', '{$domainname}', '{$domaintype}', '{$domaindsp}', 'TRUE')";
      
       if ($conn->query($sql) === TRUE) {
-         
+         $conn->close();
          return TRUE;
-         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-            return FALSE;
-         }
+      } else {
+         echo "Error: " . $sql . "<br>" . $conn->error;
+         $conn->close();
+         return FALSE;
+      }
       $conn->close();
    }
 
