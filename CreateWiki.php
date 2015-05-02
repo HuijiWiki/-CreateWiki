@@ -179,7 +179,7 @@ class CreateWiki{
         $pass = " --pass=123123 ";
         $install_db = " --installdbuser=".Confidential::$username." --installdbpass=".Confidential::$pwd;
         if (Confidential::IS_PRODUCTION){
-            $db_info= " --dbserver=rdsvylp0ttvq4k2ris0ye.mysql.rds.aliyuncs.com --dbname=huiji_sites --dbprefix=".$domainDir;
+            $db_info= " --dbserver=".Confidential::$servername." --dbname=huiji_sites --dbprefix=".$domainDir;
         } else {
             $db_info= " --dbserver=localhost --dbname=".$name;
         }
