@@ -20,7 +20,7 @@ class DBUtility
       // statement to execute
 
       $db_name = "huiji";
-      $sql = 'SELECT `domain_id` AS `exists` FROM HUIJI.DOMAIN WHERE DOMAIN.DOMAIN_PREFIX=\''.$name.'\'';
+      $sql = 'SELECT `domain_id` AS `exists` FROM huiji.domain WHERE domain.domain_prefix=\''.$name.'\'';
       # echo  $sql;
       // execute the statement
       $query = $conn->query($sql);
