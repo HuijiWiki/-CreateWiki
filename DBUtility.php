@@ -74,6 +74,43 @@ class DBUtility
       $conn->close();
    }
 
+   /**
+   *This function inserts Interwiki Prefix into global interwiki table  
+   *
+   *Database : huiji.interwiki
+   *table : domains {domain_prefix : BLOB, domain_name : BLOB}
+   *
+   *$domainprefix : the new domain prefix
+   *$domainid : the new domain name 
+   *
+   * @return mixed. FALSE if failed to insert, true if successfully inserted.
+   *
+   */
+
+   public static function insertInterwikiPrefix($domainprefix, $domainid){
+      //huiji.interwiki is the database to store the global interwiki links . 
+      $db_name = 'huiji';
+      $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd, $db_name);
+      if($conn->connect_error)
+      {
+         die("Connection Failed");
+      }
+      $url = $domainprefix.'.huiji.wiki/wiki/$1';
+      $api = $domainprefix.'.huiji.wiki/api.php';
+
+      $sql = "INSERT INTO interwiki (iw_prefix, iw_url, iw_api, iw_wikiid, iw_local, iw_trans) VALUES ('{$domainprefix}', '{$url}', '{$api}', '{$domainid}', '1', '1')";
+     
+      if ($conn->query($sql) === TRUE) {
+         $conn->close();
+         return true;
+      } else {
+         echo "Error: " . $sql . "<br>" . $conn->error;
+         $conn->close();
+         return FALSE;
+      }
+      $conn->close();
+   }
+
    public static function checkDomainExists($domainprefix){
       $db_name = 'huiji';
 
