@@ -11,8 +11,8 @@
 require_once('CreateWiki.php');
 require_once('ErrorMessage.php');
 require_once('Invitation.php');
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+// error_reporting(E_ALL);
+// ini_set('display_errors', '1');
 
 
 $domainprefix = $_POST["domainprefix"];
