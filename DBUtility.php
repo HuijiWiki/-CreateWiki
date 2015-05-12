@@ -88,15 +88,15 @@ class DBUtility
    */
 
    public static function insertInterwikiPrefix($domainprefix, $domainid){
-      //huiji.interwiki is the database to store the global interwiki links . 
+      //huiji.interwiki is the database to store the global interwiki links. 
       $db_name = 'huiji';
       $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd, $db_name);
       if($conn->connect_error)
       {
          die("Connection Failed");
       }
-      $url = $domainprefix.'.huiji.wiki/wiki/$1';
-      $api = $domainprefix.'.huiji.wiki/api.php';
+      $url = 'http://'.$domainprefix.'.huiji.wiki/wiki/$1';
+      $api = 'http://'.$domainprefix.'.huiji.wiki/api.php';
 
       $sql = "INSERT INTO interwiki (iw_prefix, iw_url, iw_api, iw_wikiid, iw_local, iw_trans) VALUES ('{$domainprefix}', '{$url}', '{$api}', '{$domainid}', '1', '1')";
      
