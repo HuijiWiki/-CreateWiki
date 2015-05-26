@@ -308,7 +308,7 @@ class CreateWiki{
     */
 
     public function promote($domainprefix, $username){
-        $command = "php /var/www/virtual/".$domainprefix."/maintenance/createAndPromote.php --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --force --bureaucrat --sysop \"".$username."\"";
+        $command = "php /var/www/virtual/".$domainprefix."/maintenance/createAndPromote.php --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --force --bureaucrat --sysop '".$username."'";
         exec($command);
     }
 

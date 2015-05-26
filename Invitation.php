@@ -21,6 +21,8 @@ class Invitation {
      */
     public static function checkInvitation($inv){
       $ret = InvitationDB::queryInvDB($inv);
+      if (Confidential::IS_PRODUCTION )
+        return 0;
       return $ret; 
     }
     
