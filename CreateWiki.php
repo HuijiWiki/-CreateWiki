@@ -63,7 +63,7 @@ class CreateWiki{
                 return $updateRet;
             }
             $this->promote($this->domainprefix, $sessionRet);
-            
+                
             //redirect to the newly created wiki
             
              
@@ -287,7 +287,7 @@ class CreateWiki{
         file_put_contents($fileName,$file_contents);
                 
         self::updateDatabase($domainprefix);
-                return 0; 
+        return 0; 
     }
     
 
@@ -309,7 +309,9 @@ class CreateWiki{
 
     public function promote($domainprefix, $username){
         $command = "php /var/www/virtual/".$domainprefix."/maintenance/createAndPromote.php --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --force --bureaucrat --sysop '".$username."'";
-        exec($command);
+        echo $command;
+        echo exec($command);
+        die();
     }
 
     /** 
