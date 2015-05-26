@@ -78,16 +78,20 @@ class CreateWiki{
     public function checkRule($name, $domain, $venue=null, $language=null, $type=null){
         $status = 0;
     if( strlen( $domain ) === 0 ) {
-                // empty field
-            $status = ErrorMessage::ERROR_DOMAIN_IS_EMPTY;
+        // empty field
+        $status = ErrorMessage::ERROR_DOMAIN_IS_EMPTY;
     }
     elseif ( strlen( $domain ) < 3 ) {
-                // too short
-            $status = ErrorMessage::ERROR_DOMAIN_TOO_SHORT;
+        // too short
+        $status = ErrorMessage::ERROR_DOMAIN_TOO_SHORT;
     }
-    elseif ( strlen( $domain ) > 50 ) {
-                // too long
+    elseif ( strlen( $domain ) > 30 ) {
+        // too long
         $status = ErrorMessage::ERROR_DOMAIN_TOO_LONG;
+    }
+    elseif ( strpos ($domain, '.') !== false && Confidential::IS_PRODUCTION ) {
+        //no dot allowed in production server
+        $status = ErrorMessage::ERROR_DOMAIN_BAD_NAME;
     }
         
     else {
