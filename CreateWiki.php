@@ -309,6 +309,7 @@ class CreateWiki{
 
     public function promote($domainprefix, $username){
         echo $username;
+        putenv('LANG=en_US.UTF-8');
         $command = "php /var/www/virtual/".$domainprefix."/maintenance/createAndPromote.php --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --force --bureaucrat --sysop '".$username."'";
         echo $command;
         echo exec($command);
