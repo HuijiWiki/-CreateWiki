@@ -4,6 +4,35 @@
 require_once('Confidential.php');
 class DBUtility
 {
+
+    //promote a user for a specific domain as admin and sysop. 
+    //return 0 if sucessful.
+    public static function dbPromote($domainprefix, $usrid){
+
+      $db_name = "huiji_".str_replace(".","_",$domainprefix);
+      $tb_name = 'user_groups';
+      $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd,$db_name);
+      if($conn->connect_error)
+      {
+         die("Connection Failed");
+      }
+
+      $bureau_sql = "INSERT INTO ".$tb_name." (ug_user , ug_group) VALUES (".$usrid.", 'bureaucrat')";
+      $sysop_sql = "INSERT INTO ".$tb_name." (ug_user , ug_group) VALUES (".$usrid.", 'sysop')";
+       
+      $bureau_query = $conn->query($bureau_sql);
+      $sysop_query = $conn->query($sysop_sql);
+      $conn->close();
+      if ($sysop_query === false || $bureau_query === false)
+      {
+         return 1;
+       
+      }
+  
+      return 0;
+
+    }
+
   
 
    /** 

@@ -238,8 +238,7 @@ class CreateWiki{
             if(preg_match('/id="(\d+)"/',$ret,$id) && $id[1]){
                 #pop a simple window for user to wait 
             #   return $id;
-                preg_match('/name="(.*?)"/',$ret,$usr);
-                return $usr[1];
+                return $id[1];
                 
             }
             else{
@@ -304,12 +303,11 @@ class CreateWiki{
     /**
     * promote a user to admin stage of the wiki
     * $domainprefix : the domain prefix for the new wiki
-    * $username : the user name of the user in glabal table. 
+    * $username : the user id of the user in glabal table. 
     */
 
-    public function promote($domainprefix, $username){
-        $command = "php /var/www/virtual/".$domainprefix."/maintenance/createAndPromote.php --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --force --bureaucrat --sysop '".$username."'";
-        exec($command);
+    public function promote($domainprefix, $userid){
+        return DBUtility::dbPromote($domainprefix, $usrid);
     }
 
     /** 
