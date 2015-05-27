@@ -303,11 +303,12 @@ class CreateWiki{
     /**
     * promote a user to admin stage of the wiki
     * $domainprefix : the domain prefix for the new wiki
-    * $username : the user id of the user in glabal table. 
+    * $userid : the user id of the user in glabal table. 
     */
 
     public function promote($domainprefix, $userid){
-        return DBUtility::dbPromote($domainprefix, $usrid);
+        $command = "php /var/www/virtual/".$domainprefix."/maintenance/createAndPromoteFromId.php --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --force --bureaucrat --sysop ".$userid;
+-       exec($command);
     }
 
     /** 
