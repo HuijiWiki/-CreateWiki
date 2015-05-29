@@ -374,10 +374,8 @@ class CreateWiki{
     *
     */
     public function showProgress($total, $current){
-        echo '<script language="javascript">
-        document.getElementById("progress").innerHTML="<div style=\"width:'.intval($i/$total * 100)."%";.';background-color:#ddd;\">&nbsp;</div>";
-        document.getElementById("information").innerHTML="'.$i.' row(s) processed.";
-        </script>';
+        $percent = intval($current/$total * 100)."%";
+        echo '<script language="javascript">document.getElementById("progress").innerHTML="<div style=\"width:'.$percent.';background-color:#ddd;\">&nbsp;</div>";document.getElementById("information").innerHTML="'.$current.' row(s) processed.";</script>';
         echo str_repeat(' ',1024*64);
         flush();
         if ( $current === $total ){
