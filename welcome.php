@@ -1,4 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<?php
+echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
     <title>Progress Bar</title>
@@ -7,9 +8,7 @@
 <!-- Progress bar holder -->
 <div id="progress" style="width:500px;border:1px solid #ccc;"></div>
 <!-- Progress information -->
-<div id="information" style="width"></div>
-<?php
-
+<div id="information" style="width"></div>';
 
 require_once('CreateWiki.php');
 require_once('ErrorMessage.php');
@@ -54,6 +53,6 @@ else{
     echo $ret;
 }
 
+echo '</body>
+</html>';
 ?>
-</body>
-</html>
