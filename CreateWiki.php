@@ -29,45 +29,58 @@ class CreateWiki{
      * @return Int; if not sucessful return the error code else 0;
      */
     public function create(){
+        //----------------------------------------
+        // Total processes
+        $total = 10;
+        $i = 1;
+        $this->showProgress($total, $i);
+
         $ruleRet = $this->checkRule($this->wikiname, $this->domainprefix);
         if($ruleRet != 0){
             //the input from user is not valid, need to ask him to do it again
             return $ruleRet;
         }
+        $i = 2;
+        $this->showProgress($total, $i);
         $sessionRet = $this->checkUserSession();
         if($sessionRet == false){
             //user is not logged in. redirect him to the log_in page
            
             return ErrorMessage::ERROR_NOT_LOG_IN;
         }
-        else{
-            $dirRet = $this->createWikiDir($this->domainprefix);
-            if($dirRet != 0){
-                //revoke directory creation
-                $this->removeWikiDir($this->domainprefix);
-                return $dirRet;
-            }
-            $installRet = $this->newWikiInstall($this->domainprefix, $this->wikiname, $this->domaintype, $this->domaindsp);
-            if($installRet!=0){
-                //revoke directory creation
-                //revoke install
-                 $this->removeWikiDir($this->domainprefix);
-                 $this->removeWikiInstall($this->domainprefix, $this->wikiname);
-                return $installRet;
-            }
-            $updateRet = $this->updateLocalSettings($this->domainprefix, $this->wikiname);
-            if($updateRet!=0){
-                //revoke all
-                 $this->removeWikiDir($this->domainprefix);
-                 $this->removeWikiInstall($this->domainprefix, $this->wikiname);
-                return $updateRet;
-            }
-            $this->promote($this->domainprefix, $sessionRet);
-                
-            //redirect to the newly created wiki
-            
-             
+        
+        $i = 3;
+        $this->showProgress($total, $i);
+        $dirRet = $this->createWikiDir($this->domainprefix);
+        if($dirRet != 0){
+            //revoke directory creation
+            $this->removeWikiDir($this->domainprefix);
+            return $dirRet;
         }
+        $i = 4;
+        $this->showProgress($total, $i);
+        $installRet = $this->newWikiInstall($this->domainprefix, $this->wikiname, $this->domaintype, $this->domaindsp);
+        if($installRet!=0){
+            //revoke directory creation
+            //revoke install
+            $this->removeWikiDir($this->domainprefix);
+            $this->removeWikiInstall($this->domainprefix, $this->wikiname);
+            return $installRet;
+        }
+        $updateRet = $this->updateLocalSettings($this->domainprefix, $this->wikiname);
+        if($updateRet!=0){
+            //revoke all
+             $this->removeWikiDir($this->domainprefix);
+             $this->removeWikiInstall($this->domainprefix, $this->wikiname);
+            return $updateRet;
+        }
+        $i = 5;
+        $this->showProgress($total, $i);
+        $this->promote($this->domainprefix, $sessionRet);
+        $i = 6;
+        $this->showProgress($total, $i);
+            
+        //redirect to the newly created wiki
         return 0; 
     }
     
@@ -354,8 +367,23 @@ class CreateWiki{
     }
 
 
-
-
+    /**
+    * Make use of javascript to show the progress percentage.
+    * @param $total: int
+    * @param $current: int
+    *
+    */
+    public function showProgress($total, $current){
+        echo '<script language="javascript">
+        document.getElementById("progress").innerHTML="<div style=\"width:'.intval($i/$total * 100)."%";.';background-color:#ddd;\">&nbsp;</div>";
+        document.getElementById("information").innerHTML="'.$i.' row(s) processed.";
+        </script>';
+        echo str_repeat(' ',1024*64);
+        flush();
+        if ( $current === $total ){
+            echo '<script language="javascript">document.getElementById("information").innerHTML="Process completed"</script>';
+        }
+    }
 
 }   
 ?>
