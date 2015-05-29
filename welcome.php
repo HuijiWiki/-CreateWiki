@@ -1,11 +1,15 @@
 <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>Progress Bar</title>
+</head>
+<body>
+<!-- Progress bar holder -->
+<div id="progress" style="width:500px;border:1px solid #ccc;"></div>
+<!-- Progress information -->
+<div id="information" style="width"></div>
+<?php
 
 
 require_once('CreateWiki.php');
@@ -41,12 +45,17 @@ if($ret == ErrorMessage::ERROR_NOT_LOG_IN){
    
 }
 elseif($ret == 0){
-   Invitation::expireInvitation($invcode);
-   header('Location: http://'.$domainprefix.'.huiji.wiki');
+	// Tell user that the process is completed
+	echo '<script language="javascript">document.getElementById("information").innerHTML="Process completed"</script>';
+    Invitation::expireInvitation($invcode);
+    header('Location: http://'.$domainprefix.'.huiji.wiki');
 }
 else{
     
     echo $ret;
 }
 
+?>
+</body>
+</html>
 ?>
