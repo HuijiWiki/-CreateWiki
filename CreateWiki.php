@@ -114,35 +114,35 @@ class CreateWiki{
 
         $name = $domainprefix;
     
-    $structure = "/var/www/virtual/".$name;
-    
+        $structure = "/var/www/virtual/".$name;
+        
 
-        // To create the nested structure, the $recursive parameter 
-        // to mkdir() must be specified.
-    $oldmask = umask(0);
-    if (!mkdir($structure, 0777,true)) {
-        return ErrorMessage::ERROR_FAIL_FOLDER;
-    }
-    if(!mkdir($structure."/uploads",0777,true)){
-        return ErrorMessage::ERROR_FAIL_CREATE_UPLOAD;
-    }
-    if(!mkdir($structure."/cache",0777,true)){
-        return ErrorMessage::ERROR_FAIL_CREATE_CACHE;
-    }
-    //the source link from the linked folder
-    // if($srcDir == null){
-    //  $srcDir = "/var/www/src/extensions/SocialProfile";   
-    // }
-    
-    // self::xcopy($srcDir."/avatars", $structure."/uploads/avatars");
-    // self::xcopy($srcDir."/awards", $structure."/uploads/awards");    
+            // To create the nested structure, the $recursive parameter 
+            // to mkdir() must be specified.
+        $oldmask = umask(0);
+        if (!mkdir($structure, 0777,true)) {
+            return ErrorMessage::ERROR_FAIL_FOLDER;
+        }
+        if(!mkdir($structure."/uploads",0777,true)) {
+            return ErrorMessage::ERROR_FAIL_CREATE_UPLOAD;
+        }
+        if(!mkdir($structure."/cache",0777,true)) {
+            return ErrorMessage::ERROR_FAIL_CREATE_CACHE;
+        }
+        //the source link from the linked folder
+        // if($srcDir == null){
+        //  $srcDir = "/var/www/src/extensions/SocialProfile";   
+        // }
+        
+        // self::xcopy($srcDir."/avatars", $structure."/uploads/avatars");
+        // self::xcopy($srcDir."/awards", $structure."/uploads/awards");    
 
-    umask($oldmask);
-    // use shared avatars and awards from the main site.
-    exec('ln -s /var/www/html/uploads/avatars '.$structure."/uploads/avatars");
-    exec('ln -s /var/www/html/uploads/awards '.$structure."/uploads/awards");
-    exec('ln -s /var/www/src/* '.$structure);
-    return 0;
+        umask($oldmask);
+        // use shared avatars and awards from the main site.
+        exec('ln -s /var/www/html/uploads/avatars '.$structure."/uploads/avatars");
+        exec('ln -s /var/www/html/uploads/awards '.$structure."/uploads/awards");
+        exec('ln -s /var/www/src/* '.$structure);
+        return 0;
     }
     
     /** remove a created wiki directory. 
@@ -205,7 +205,12 @@ class CreateWiki{
      * @param type $wikiname
      */
     public function removeWikiInstall($domainprefix, $wikiname){
-        DBUtility::dropDB($domainprefix);
+        if (Confidential::IS_PRODUCTION){
+            //Don't ever drop a db in production server, just mark it as unavailable.
+        } else {
+            DBUtility::dropDB('huiji_'.str_replace('.', '_', $domainprefix));
+        }
+        
     }
     
     
