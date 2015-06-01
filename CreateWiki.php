@@ -31,7 +31,7 @@ class CreateWiki{
     public function create(){
         //----------------------------------------
         // Total processes
-        $total = 10;
+        $total = 7;
         $i = 1;
         $this->showProgress($total, $i);
 
@@ -67,6 +67,8 @@ class CreateWiki{
             $this->removeWikiInstall($this->domainprefix, $this->wikiname);
             return $installRet;
         }
+        $i = 5;
+        $this->showProgress($total, $i);
         $updateRet = $this->updateLocalSettings($this->domainprefix, $this->wikiname);
         if($updateRet!=0){
             //revoke all
@@ -74,10 +76,10 @@ class CreateWiki{
              $this->removeWikiInstall($this->domainprefix, $this->wikiname);
             return $updateRet;
         }
-        $i = 5;
+        $i = 6;
         $this->showProgress($total, $i);
         $this->promote($this->domainprefix, $sessionRet);
-        $i = 6;
+        $i = 7;
         $this->showProgress($total, $i);
             
         //redirect to the newly created wiki
@@ -375,11 +377,11 @@ class CreateWiki{
     */
     public function showProgress($total, $current){
         $percent = intval($current/$total * 100)."%";
-        echo '<script language="javascript">document.getElementById("progress").innerHTML="<div style=\"width:'.$percent.';background-color:#ddd;\">&nbsp;</div>";document.getElementById("information").innerHTML="'.$current.' row(s) processed.";</script>';
+        echo '<script language="javascript">document.getElementById("progress").innerHTML="<div style=\"width:'.$percent.';background-color:#ddd;\">&nbsp;</div>";document.getElementById("information").innerHTML="'.$current.'/{$total} 装载中...";</script>';
         echo str_repeat(' ',1024*64);
         flush();
         if ( $current === $total ){
-            echo '<script language="javascript">document.getElementById("information").innerHTML="Process completed"</script>';
+            echo '<script language="javascript">document.getElementById("information").innerHTML="维基已建立"</script>';
         }
     }
 

@@ -2,7 +2,7 @@
 echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
-    <title>Progress Bar</title>
+    <title>灰机准备起飞中</title>
 </head>
 <body>
 <!-- Progress bar holder -->
@@ -43,8 +43,6 @@ if($ret == ErrorMessage::ERROR_NOT_LOG_IN){
    
 }
 elseif($ret == 0){
-	// Tell user that the process is completed
-	echo '<script language="javascript">document.getElementById("information").innerHTML="Process completed"</script>';
     Invitation::expireInvitation($invcode);
     header('Location: http://'.$domainprefix.'.huiji.wiki');
 }
