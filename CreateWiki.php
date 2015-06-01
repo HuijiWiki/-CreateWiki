@@ -377,11 +377,11 @@ class CreateWiki{
     */
     public function showProgress($total, $current){
         $percent = intval($current/$total * 100)."%";
-        echo '<script language="javascript">document.getElementById("progress").innerHTML="<div style=\"width:'.$percent.';background-color:#ddd;\">&nbsp;</div>";document.getElementById("information").innerHTML="'.$current.'/{$total} 装载中...";</script>';
+        echo '<script type="text/javascript">document.getElementById("progress").innerHTML="<div style=\"width:'.$percent.';background-color:#ddd;\">&nbsp;</div>";document.getElementById("information").innerHTML="'.$current.'/'.$total.' 装载中...";</script>';
         echo str_repeat(' ',1024*64);
         flush();
         if ( $current === $total ){
-            echo '<script language="javascript">document.getElementById("information").innerHTML="维基已建立"</script>';
+            echo '<script type="text/javascript">document.getElementById("information").innerHTML="维基已建立"</script>';
         }
     }
 

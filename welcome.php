@@ -1,6 +1,6 @@
 <?php
-echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html lang="en">
+echo '<!DOCTYPE html">
+<html lang="zh-cn" dir="ltr">
 <head>
     <title>灰机准备起飞中</title>
 </head>
@@ -36,15 +36,16 @@ $wiki = new CreateWiki($domainprefix, $wikiname, $type, $dsp);
 $ret = $wiki->create();
 if($ret == ErrorMessage::ERROR_NOT_LOG_IN){
 	if (Confidential::IS_PRODUCTION){
-		header( 'Location: http://home.huiji.wiki/wiki/%E7%89%B9%E6%AE%8A:%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95' ) ;
+		echo '<script type="text/javascript">window.location="http://home.huiji.wiki/wiki/%E7%89%B9%E6%AE%8A:%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95";</script>'
 	} else {
-		header( 'Location: http://test.huiji.wiki/wiki/%E7%89%B9%E6%AE%8A:%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95' ) ;
+		echo '<script type="text/javascript">window.location="http://test.huiji.wiki/wiki/%E7%89%B9%E6%AE%8A:%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95";</script>'
 	}
    
 }
 elseif($ret == 0){
     Invitation::expireInvitation($invcode);
-    header('Location: http://'.$domainprefix.'.huiji.wiki');
+    echo '<script type="text/javascript">window.location="http://'.$domainprefix.'.huiji.wiki";</script>'
+    // header('Location: http://'.$domainprefix.'.huiji.wiki');
 }
 else{
     
