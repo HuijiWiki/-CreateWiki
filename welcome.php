@@ -15,7 +15,7 @@ require_once('ErrorMessage.php');
 require_once('Invitation.php');
 // error_reporting(E_ALL);
 // ini_set('display_errors', '1');
-
+header('Content-type: text/html; charset=utf-8');
 
 $domainprefix = $_POST["domainprefix"];
 $domainprefix = strtolower ( $domainprefix ); //domain name should be case in sensitive here.
