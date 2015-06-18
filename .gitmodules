@@ -1,0 +1,6 @@
+[submodule "animateText.js"]
+	path = animateText.js
+	url = https://github.com/Reasno/animateText.js.git
+[submodule "textillate"]
+	path = textillate
+	url = https://github.com/Reasno/textillate.git

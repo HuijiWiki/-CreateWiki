@@ -8,6 +8,15 @@ class CreateWiki{
     public $domaintype;
     public $domaindsp; 
 
+    private $steps = array(
+        1 => '点火准备',
+        2 => '正在检查氧气阀压力',
+        3 => '请确认带好毛巾',
+        4 => '请不要恐慌',
+        5 => '主发动机点火中……',
+        6 => '灰机已经起飞！重复一遍，灰机已经起飞！',
+    );
+
     private $id;
     /** Constructor
      *
@@ -377,7 +386,7 @@ class CreateWiki{
     */
     public function showProgress($total, $current){
         $percent = intval($current/$total * 100)."%";
-        echo '<script type="text/javascript">document.getElementById("progress").innerHTML="<div style=\"width:'.$percent.';background-color:#ddd;\">&nbsp;</div>";document.getElementById("information").innerHTML="'.$current.'/'.$total.' 装载中...";</script>';
+        echo '<script type="text/javascript">document.getElementById("progress").innerHTML="<div style=\"width:'.$percent.';background-color:#ddd;\">&nbsp;</div>";document.getElementById("information").innerHTML="'.$steps($current).'";</script>';
         echo str_repeat(' ',1024*64);
         flush();
         if ( $current === $total ){

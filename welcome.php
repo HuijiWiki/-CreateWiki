@@ -2,9 +2,18 @@
 echo '<!DOCTYPE html">
 <html lang="zh-cn" dir="ltr">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>灰机准备起飞中</title>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js"></script>
+    <link href="textillate/assets/animate.css" rel="stylesheet">
+    <link href="textillate/assets/style.css" rel="stylesheet">
 </head>
 <body>
+<script src="textillate/assets/jquery.fittext.js"></script>
+<script src="textillate/assets/jquery.lettering.js"></script>
+<script src="textillate/jquery.textillate.js"></script>
 <!-- Progress bar holder -->
 <div id="progress" style="width:500px;border:1px solid #ccc;"></div>
 <!-- Progress information -->
