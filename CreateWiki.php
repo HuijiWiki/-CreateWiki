@@ -8,6 +8,7 @@ class CreateWiki{
     public $domaintype;
     public $domaindsp; 
 
+
     private $steps = array(
         1 => '点火准备',
         2 => '正在检查氧气阀压力',
@@ -26,11 +27,12 @@ class CreateWiki{
      * @param type $type wiki type
      * @param type $dsp wiki description
      */
-    public function __construct($prefix, $name, $type, $dsp){
+    public function __construct($prefix, $name, $type, $dsp , $template){
         $this->domainprefix = $prefix;
         $this->wikiname = $name;
         $this->domaintype = $type;
         $this->domaindsp = $dsp;
+        $this->template = $template;
     }
     
     /** Create a complete working sub wiki
@@ -90,7 +92,9 @@ class CreateWiki{
         $this->promote($this->domainprefix, $sessionRet);
         $i = 7;
         $this->showProgress($total, $i);
-            
+        
+        // $this->migrateInitialTemplate($this->domainprefix, $this->template);
+
         //redirect to the newly created wiki
         return 0; 
     }
@@ -276,6 +280,34 @@ class CreateWiki{
             }
         }
     }
+
+
+
+    /** 
+    * When Create Wiki, copy the initial templates into the newly created wiki site
+    *
+    * @param $domainprefix : the domain prefix of the inital template
+    * @param $iniTemplateName: the choice from user about which template user wants to install.
+    *
+    * @return true if the curl call is sucessful, false otherwise.
+    **/
+
+    public function migrateInitialTemplate($domainprefix, $iniTemplateName){
+        $targetDomain = $domainprefix.".huiji.wiki";
+        $fromDomain = "templatemanager.huiji.wiki";
+        $template = $iniTemplateName;
+        $params = array('fromDomain'=> $fromDomain, 'toDomain' => $targetDomain, 'skeletonName' => $iniTemplateName, 'apitoken' => Confidential::$apitoken);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://test.huiji.wiki:3000/sm');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+
+        $ret = curl_exec($ch);
+        curl_close($ch);
+
+        return $ret;
+    }
         
         /** Replace the current LocalSettings.php after it is generated
          * 
@@ -376,6 +408,8 @@ class CreateWiki{
         $dir->close();
         return true;
     }
+
+
 
 
     /**
