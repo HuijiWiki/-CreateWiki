@@ -14,8 +14,9 @@ class CreateWiki{
         2 => '正在检查氧气阀压力',
         3 => '请确认带好毛巾',
         4 => '请不要恐慌',
-        5 => '主发动机点火中……',
-        6 => '灰机已经起飞！重复一遍，灰机已经起飞！',
+        5 => '机长请就坐',
+        6 => '主发动机点火中……',
+        7 => '灰机已经起飞！重复一遍，灰机已经起飞！',
     );
 
     private $id;
@@ -42,9 +43,8 @@ class CreateWiki{
     public function create(){
         //----------------------------------------
         // Total processes
-        $total = 7;
         $i = 1;
-        $this->showProgress($total, $i);
+        $this->showProgress($i);
 
         $ruleRet = $this->checkRule($this->wikiname, $this->domainprefix);
         if($ruleRet != 0){
@@ -52,7 +52,7 @@ class CreateWiki{
             return $ruleRet;
         }
         $i = 2;
-        $this->showProgress($total, $i);
+        $this->showProgress($i);
         $sessionRet = $this->checkUserSession();
         if($sessionRet == false){
             //user is not logged in. redirect him to the log_in page
@@ -61,7 +61,7 @@ class CreateWiki{
         }
         
         $i = 3;
-        $this->showProgress($total, $i);
+        $this->showProgress($i);
         $dirRet = $this->createWikiDir($this->domainprefix);
         if($dirRet != 0){
             //revoke directory creation
@@ -69,7 +69,7 @@ class CreateWiki{
             return $dirRet;
         }
         $i = 4;
-        $this->showProgress($total, $i);
+        $this->showProgress($i);
         $installRet = $this->newWikiInstall($this->domainprefix, $this->wikiname, $this->domaintype, $this->domaindsp);
         if($installRet!=0){
             //revoke directory creation
@@ -79,7 +79,7 @@ class CreateWiki{
             return $installRet;
         }
         $i = 5;
-        $this->showProgress($total, $i);
+        $this->showProgress($i);
         $updateRet = $this->updateLocalSettings($this->domainprefix, $this->wikiname);
         if($updateRet!=0){
             //revoke all
@@ -88,10 +88,10 @@ class CreateWiki{
             return $updateRet;
         }
         $i = 6;
-        $this->showProgress($total, $i);
+        $this->showProgress($i);
         $this->promote($this->domainprefix, $sessionRet);
         $i = 7;
-        $this->showProgress($total, $i);
+        $this->showProgress($i);
         
         // $this->migrateInitialTemplate($this->domainprefix, $this->template);
 
@@ -418,14 +418,14 @@ class CreateWiki{
     * @param $current: int
     *
     */
-    public function showProgress($total, $current){
-        $percent = intval($current/$total * 100)."%";
-        echo '<script type="text/javascript">document.getElementById("progress").innerHTML="<div style=\"width:'.$percent.';background-color:#ddd;\">&nbsp;</div>";document.getElementById("information").innerHTML="'.$steps($current).'";</script>';
+    public function showProgress($current){
+        $percent = intval($current/count($this->steps) * 100)."%";
+        echo '<script type="text/javascript">document.getElementById("progress").innerHTML="<div style=\"width:'.$percent.';background-color:#ddd;\">&nbsp;</div>";$("#information").textillate("out");document.getElementById("information").innerHTML="'.$this->steps[$current].'";$("#information").textillate("in");</script>';
         echo str_repeat(' ',1024*64);
         flush();
-        if ( $current === $total ){
-            echo '<script type="text/javascript">document.getElementById("information").innerHTML="维基已建立"</script>';
-        }
+        // if ( $current === $total ){
+        //     echo '<script type="text/javascript">document.getElementById("information").innerHTML="维基已建立"</script>';
+        // }
     }
 
 }   
