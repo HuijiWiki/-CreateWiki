@@ -11,12 +11,12 @@ class CreateWiki{
 
     private $steps = array(
         1 => '点火准备',
-        2 => '正在检查氧气阀压力',
+        2 => '请检查氧气阀压力',
         3 => '请确认带好毛巾',
         4 => '请不要恐慌',
-        5 => '机长请就坐',
-        6 => '主发动机点火中……',
-        7 => '灰机已经起飞！重复一遍，灰机已经起飞！',
+        5 => '主发动机点火中……',
+        6 => '灰机已经起飞！',
+        7 => '重复一遍，灰机已经起飞！'
     );
 
     private $id;
@@ -421,7 +421,7 @@ class CreateWiki{
     public function showProgress($current){
         $percent = intval($current/count($this->steps) * 100)."%";
         echo '<script type="text/javascript">document.getElementById("progress").innerHTML="<div class=\"progress-bar\" style=\"width:'.$percent.';\">&nbsp;</div>";
-                $("#information").prepend("<h1 id=\"step_'.$current.'\">'.$this->steps[$current].'</h1>");
+                $("#information").prepend("<h3 id=\"step_'.$current.'\">'.$this->steps[$current].'</h3>");
                 $("#step_'.$current.'").textillate("{loop: false, initialDelay: 0, in:{effect: \'flip\', delayScale: 1, delay: 150, reverse: true}}");
             </script>';
         echo str_repeat(' ',1024*64);
