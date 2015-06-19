@@ -17,7 +17,7 @@ echo '<!DOCTYPE html">
 <!-- Progress bar holder -->
 <div id="progress" style="width:500px;border:1px solid #ccc;"></div>
 <!-- Progress information -->
-<div id="information" style="width" data-in-effect="flip" data-out-effect="fadeOutRight" data-out-sync="true"></div>';
+<div id="information"></div>';
 
 require_once('CreateWiki.php');
 require_once('ErrorMessage.php');

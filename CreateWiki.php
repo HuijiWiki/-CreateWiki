@@ -420,12 +420,21 @@ class CreateWiki{
     */
     public function showProgress($current){
         $percent = intval($current/count($this->steps) * 100)."%";
-        echo '<script type="text/javascript">document.getElementById("progress").innerHTML="<div style=\"width:'.$percent.';background-color:#ddd;\">&nbsp;</div>";$("#information").textillate("out");document.getElementById("information").innerHTML="'.$this->steps[$current].'";$("#information").textillate("in");</script>';
+        echo '<script type="text/javascript">
+                document.getElementById("progress").innerHTML="<div style=\"width:'.$percent.';background-color:#ddd;\">&nbsp;</div>";
+                $("#information").prepend("<p id="step_'+$current+'">'.$this->steps[$current].'</p>");
+                $("#step_'+$current+'").textillate("{
+                    loop: false,
+                    in : {
+                        effect: \'flip\',
+                        delayScale: 1,
+                        delay: 150,
+                        reverse: true
+                    },
+                }");
+            </script>';
         echo str_repeat(' ',1024*64);
         flush();
-        // if ( $current === $total ){
-        //     echo '<script type="text/javascript">document.getElementById("information").innerHTML="维基已建立"</script>';
-        // }
     }
 
 }   
