@@ -421,7 +421,7 @@ class CreateWiki{
     public function showProgress($current){
         $percent = intval($current/count($this->steps) * 100)."%";
         echo '<script type="text/javascript">document.getElementById("progress").innerHTML="<div style=\"width:'.$percent.';background-color:#ddd;\">&nbsp;</div>";
-                $("#information").prepend("<p id="step_'.$current.'">'.$this->steps[$current].'</p>");
+                $("#information").prepend("<p id=\"step_'.$current.'\">'.$this->steps[$current].'</p>");
                 $("#step_'.$current.'").textillate("{
                     loop: false,
                     in : {
