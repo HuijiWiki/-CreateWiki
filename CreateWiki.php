@@ -429,7 +429,7 @@ class CreateWiki{
                         delayScale: 1,
                         delay: 150,
                         reverse: true
-                    },
+                    }
                 }");
             </script>';
         echo str_repeat(' ',1024*64);
