@@ -14,10 +14,13 @@ echo '<!DOCTYPE html">
 <script src="textillate/assets/jquery.fittext.js"></script>
 <script src="textillate/assets/jquery.lettering.js"></script>
 <script src="textillate/jquery.textillate.js"></script>
-<!-- Progress bar holder -->
-<div id="progress" style="width:500px;border:1px solid #ccc;"></div>
-<!-- Progress information -->
-<div id="information"></div>';
+
+<div class="container">
+    <!-- Progress bar holder -->
+    <div id="progress" class="progress"></div>
+    <!-- Progress information -->
+    <div id="information"></div>
+</div>';
 
 require_once('CreateWiki.php');
 require_once('ErrorMessage.php');
