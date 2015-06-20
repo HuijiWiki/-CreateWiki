@@ -292,13 +292,13 @@ class CreateWiki{
     * @return true if the curl call is sucessful, false otherwise.
     **/
 
-    public function migrateInitialTemplate($domainprefix, $iniTemplateName){
+    public function migrateInitialManifest($domainprefix){
         $targetDomain = $domainprefix.".huiji.wiki";
         $fromDomain = "templatemanager.huiji.wiki";
-        $template = $iniTemplateName;
-        $params = array('fromDomain'=> $fromDomain, 'toDomain' => $targetDomain, 'skeletonName' => $iniTemplateName, 'apitoken' => Confidential::$apitoken);
+        $manifestName = "Manifest:灰机基础包";
+        $params = array('fromDomain'=> $fromDomain, 'toDomain' => $targetDomain, 'skeletonName' => $manifestName, 'apitoken' => Confidential::$apitoken);
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://test.huiji.wiki:3000/sm');
+        curl_setopt($ch, CURLOPT_URL, 'http://test.huiji.wiki:3000/service/smp');
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
@@ -308,6 +308,10 @@ class CreateWiki{
 
         return $ret;
     }
+
+
+
+    public function install
         
         /** Replace the current LocalSettings.php after it is generated
          * 
