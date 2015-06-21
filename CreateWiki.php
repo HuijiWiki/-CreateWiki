@@ -310,8 +310,28 @@ class CreateWiki{
     }
 
 
+    /**
+    *
+    */
 
-    public function install
+
+    public function migrateWikiaSkeleton($domainprefix, $wikiaSite){
+        $targetDomain = $domainprefx."huiji.wiki";
+        $fromDomain = $wikiaSite;
+        $params = array('fromDomain' => $fromDomain, 'targetDomain' => $targetDomain);
+        curl_setopt($ch, CURLOPT_URL, 'http://test.huiji.wiki:3000/service/nvp');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+
+        $ret = curl_exec($ch);
+        curl_close($ch);
+
+        return $ret;
+    }
+
+
+
         
         /** Replace the current LocalSettings.php after it is generated
          * 
