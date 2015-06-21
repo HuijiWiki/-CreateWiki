@@ -281,9 +281,8 @@ class CreateWiki{
         }
     }
 
-
-
-    /** 
+        
+/** 
     * When Create Wiki, copy the initial templates into the newly created wiki site
     *
     * @param $domainprefix : the domain prefix of the inital template
@@ -292,23 +291,29 @@ class CreateWiki{
     * @return true if the curl call is sucessful, false otherwise.
     **/
 
-    public function migrateInitialTemplate($domainprefix, $iniTemplateName){
+    public function migrateInitialManifest($domainprefix){ 
         $targetDomain = $domainprefix.".huiji.wiki";
         $fromDomain = "templatemanager.huiji.wiki";
-        $template = $iniTemplateName;
-        $params = array('fromDomain'=> $fromDomain, 'toDomain' => $targetDomain, 'skeletonName' => $iniTemplateName, 'apitoken' => Confidential::$apitoken);
+        $manifestName = "Manifest:灰机基础包";
+        $params = array('fromDomain' => $fromDomain, 'targetDomain' => $targetDomain,'skeletonName' => $manifestName);
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://test.huiji.wiki:3000/sm');
+        $param_url = http_build_query($params);
+        if (Confidential::IS_PRODUCTION){
+            curl_setopt($ch, CURLOPT_URL, 'http://home.huiji.wiki:3000/service/smp?'.$param_url);
+        } else {
+            curl_setopt($ch, CURLOPT_URL, 'http://test.huiji.wiki:3000/service/smp?'.$param_url);
+        }
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        //curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
 
         $ret = curl_exec($ch);
         curl_close($ch);
 
         return $ret;
     }
-        
+
+
         /** Replace the current LocalSettings.php after it is generated
          * 
          * @param string $srcDir source directroy to copy template from

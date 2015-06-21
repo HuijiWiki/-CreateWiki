@@ -25,6 +25,7 @@ echo '<!DOCTYPE html">
 require_once('CreateWiki.php');
 require_once('ErrorMessage.php');
 require_once('Invitation.php');
+//require_once('ImportMW.php');
 // error_reporting(E_ALL);
 // ini_set('display_errors', '1');
 header('Content-type: text/html; charset=utf-8');
@@ -34,8 +35,9 @@ $domainprefix = strtolower ( $domainprefix ); //domain name should be case in se
 $wikiname = $_POST["wikiname"];
 $dsp = $_POST["description"];
 $type = $_POST["type"];
-
+$manifest = $_POST["manifest"];
 $invcode = $_POST["inv"];
+
 
 $invCheck = Invitation::checkInvitation($invcode);
 if($invCheck == ErrorMessage::INV_NOT_FOUND){
@@ -52,9 +54,22 @@ if($ret == ErrorMessage::ERROR_NOT_LOG_IN){
 	} else {
 		echo '<script type="text/javascript">window.location="http://test.huiji.wiki/wiki/%E7%89%B9%E6%AE%8A:%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95";</script>';
 	}
-   
 }
-elseif($ret == 0){
+elseif($ret == 0){ //create wiki sucess. now import manifest settings
+    if($manifest === "empty"){
+        //do nothing
+    }  
+    else if($manifest === "internal"){
+        $manifestChoice = "Manifest:灰机基础包";
+        $wiki->migrateInitialManifest($domainprefix);
+    }
+    else if($manifest === "external"){
+        $fromDomain = $_POST["fromDomain"]; //get the wikia site to get the nav bar informaiton
+	    $toDomain = $domainprefix."huiji.wiki";
+	    $wiki->migrateWikia($fromDomain, $toDomain);
+    }
+    $i = 7;
+    $wiki->showProgress($i);
     Invitation::expireInvitation($invcode);
     echo '<script type="text/javascript">window.location="http://'.$domainprefix.'.huiji.wiki";</script>';
     // header('Location: http://'.$domainprefix.'.huiji.wiki');
@@ -67,3 +82,4 @@ else{
 echo '</body>
 </html>';
 ?>
+
