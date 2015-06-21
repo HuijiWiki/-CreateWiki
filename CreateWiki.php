@@ -289,6 +289,7 @@ class CreateWiki{
     * @return true if the curl call is sucessful, false otherwise.
     **/
 
+
     public function migrateInitialManifest($domainprefix){ 
         $targetDomain = $domainprefix.".huiji.wiki";
         $fromDomain = "templatemanager.huiji.wiki";

@@ -26,6 +26,7 @@ require_once('CreateWiki.php');
 require_once('ErrorMessage.php');
 require_once('Invitation.php');
 //require_once('ImportMW.php');
+
 // error_reporting(E_ALL);
 // ini_set('display_errors', '1');
 header('Content-type: text/html; charset=utf-8');
