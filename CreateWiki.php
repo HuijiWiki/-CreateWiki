@@ -43,15 +43,13 @@ class CreateWiki{
     public function create(){
         //----------------------------------------
         // Total processes
-        $i = 1;
-        $this->showProgress($i);
 
         $ruleRet = $this->checkRule($this->wikiname, $this->domainprefix);
         if($ruleRet != 0){
             //the input from user is not valid, need to ask him to do it again
             return $ruleRet;
         }
-        $i = 2;
+        $i = 1;
         $this->showProgress($i);
         $sessionRet = $this->checkUserSession();
         if($sessionRet == false){
@@ -60,7 +58,7 @@ class CreateWiki{
             return ErrorMessage::ERROR_NOT_LOG_IN;
         }
         
-        $i = 3;
+        $i = 2;
         $this->showProgress($i);
         $dirRet = $this->createWikiDir($this->domainprefix);
         if($dirRet != 0){
@@ -68,7 +66,7 @@ class CreateWiki{
             $this->removeWikiDir($this->domainprefix);
             return $dirRet;
         }
-        $i = 4;
+        $i = 3;
         $this->showProgress($i);
         $installRet = $this->newWikiInstall($this->domainprefix, $this->wikiname, $this->domaintype, $this->domaindsp);
         if($installRet!=0){
@@ -78,7 +76,7 @@ class CreateWiki{
             $this->removeWikiInstall($this->domainprefix, $this->wikiname);
             return $installRet;
         }
-        $i = 5;
+        $i = 4;
         $this->showProgress($i);
         $updateRet = $this->updateLocalSettings($this->domainprefix, $this->wikiname);
         if($updateRet!=0){
@@ -87,10 +85,10 @@ class CreateWiki{
              $this->removeWikiInstall($this->domainprefix, $this->wikiname);
             return $updateRet;
         }
-        $i = 6;
+        $i = 5;
         $this->showProgress($i);
         $this->promote($this->domainprefix, $sessionRet);
-        $i = 7;
+        $i = 6;
         $this->showProgress($i);
         
         // $this->migrateInitialTemplate($this->domainprefix, $this->template);
@@ -282,7 +280,7 @@ class CreateWiki{
     }
 
         
-/** 
+    /** 
     * When Create Wiki, copy the initial templates into the newly created wiki site
     *
     * @param $domainprefix : the domain prefix of the inital template
