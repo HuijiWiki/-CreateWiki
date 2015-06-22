@@ -43,6 +43,18 @@ if($ret == ErrorMessage::ERROR_NOT_LOG_IN){
    
 }
 elseif($ret == 0){
+    if($manifest === "empty"){
+
+    }
+    else if($manifest === "internal"){
+       // $manifestChoice = "Manifest:灰机基础包";
+        $wiki->migrateInitialManifest($domainprefix);
+    }
+    else if($manifest === "external"){
+        $fromDomain = $_POST["fromDomain"]; //get the wikia site to get the nav bar informaiton
+        $toDomain = $domainprefix."huiji.wiki";
+        $wiki->migrateWikia($fromDomain, $toDomain);
+    }
     Invitation::expireInvitation($invcode);
     echo '<script type="text/javascript">window.location="http://'.$domainprefix.'.huiji.wiki";</script>';
     // header('Location: http://'.$domainprefix.'.huiji.wiki');
