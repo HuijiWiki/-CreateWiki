@@ -56,12 +56,12 @@ if($ret == ErrorMessage::ERROR_NOT_LOG_IN){
 		echo '<script type="text/javascript">window.location="http://test.huiji.wiki/wiki/%E7%89%B9%E6%AE%8A:%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95";</script>';
 	}
 }
-elseif($ret == 0){ //create wiki sucess. now import manifest settings
+elseif($ret == 0){
     if($manifest === "empty"){
-        //do nothing
-    }  
+
+    }
     else if($manifest === "internal"){
-        $manifestChoice = "Manifest:灰机基础包";
+       // $manifestChoice = "Manifest:灰机基础包";
         $wiki->migrateInitialManifest($domainprefix);
     }
     else if($manifest === "external"){
@@ -83,4 +83,3 @@ else{
 echo '</body>
 </html>';
 ?>
-
