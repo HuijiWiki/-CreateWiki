@@ -66,7 +66,7 @@ elseif($ret == 0){
     }
     else if($manifest === "external"){
         $fromDomain = $_POST["fromDomain"]; //get the wikia site to get the nav bar informaiton
-	    $toDomain = $domainprefix."huiji.wiki";
+	    $toDomain = $domainprefix.".huiji.wiki";
 	    $wiki->migrateWikia($fromDomain, $toDomain);
     }
     $i = 7;
