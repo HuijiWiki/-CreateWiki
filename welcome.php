@@ -61,7 +61,7 @@ elseif($ret == 0){ //create wiki sucess. now import manifest settings
         //do nothing
     }  
     else if($manifest === "internal"){
-        $manifestChoice = "Manifest:灰机基础包";
+        $manifestChoice = "Manifest:灰机基础包"; //temorarily unused
         $wiki->migrateInitialManifest($domainprefix);
     }
     else if($manifest === "external"){
