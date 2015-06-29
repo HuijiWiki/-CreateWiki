@@ -103,6 +103,9 @@ class CreateWiki{
     
     public function checkRule($name, $domain, $venue=null, $language=null, $type=null){
         $status = 0;
+        $reg = "/[A-Za-z0-9]+/i";
+
+
     if( strlen( $domain ) === 0 ) {
         // empty field
         $status = ErrorMessage::ERROR_DOMAIN_IS_EMPTY;
@@ -114,6 +117,9 @@ class CreateWiki{
     elseif ( strlen( $domain ) > 30 ) {
         // too long
         $status = ErrorMessage::ERROR_DOMAIN_TOO_LONG;
+    }
+    elseif( preg_match($reg, $domain) === 1){
+        $status = ErrorMessage::ERROR_DOMAIN_INVALID_CHAR;
     }
     elseif ( strpos ($domain, '.') !== false && Confidential::IS_PRODUCTION ) {
         //no dot allowed in production server

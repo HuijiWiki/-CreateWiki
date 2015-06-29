@@ -7,6 +7,7 @@ class ErrorMessage{
 	const ERROR_DOMAIN_IS_EMPTY                        = 3;
 	const ERROR_DOMAIN_TOO_LONG                        = 4;
 	const ERROR_DOMAIN_TOO_SHORT	                   = 5;
+	const ERROR_DOMAIN_INVALID_CHAR                    = 17;
 
 	//create directory error messages
 	const ERROR_FAIL_FOLDER                            = 6;
