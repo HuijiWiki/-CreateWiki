@@ -292,7 +292,7 @@ class CreateWiki{
         $params = array('fromDomain'=>$fromDomain, 'targetDomain'=>$toDomain);
         $ch = curl_init();
         $param_url = http_build_query($params);
-        curl_setopt($ch, CURLOPT_URL, 'http://home.huiji.wiki:3000/service/nvp?'.$param_url);
+        curl_setopt($ch, CURLOPT_URL, 'http://home.huiji.wiki:3000/service/mm?'.$param_url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         //curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
@@ -336,20 +336,6 @@ class CreateWiki{
     }
 
 
-
-    
-    public function migrateWikia($fromDomain, $toDomain){
-        $params = array('fromDomain'=>$fromDomain, 'targetDomain'=>$toDomain);
-        $ch = curl_init();
-        $param_url = http_build_query($params);
-        curl_setopt($ch, CURLOPT_URL, 'http://home.huiji.wiki:3000/service/nvp?'.$param_url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-        $ret = curl_exec($ch);
-        curl_close($ch);
-        return $ret;
-    }
 
 
 
