@@ -26,6 +26,8 @@ class InvitationDB {
       {
          die("Connection Failed");
       }
+      $invcode = mysqli_real_escape_string($conn, $invcode);
+      $status = mysqli_real_escape_string($conn, $status);
       $sql = "INSERT IGNORE INTO ".self::INV_TB." (invitation_code, status) VALUES ('{$invcode}', '{$status}')";
       if ($conn->query($sql) === TRUE) {
          
@@ -48,6 +50,7 @@ class InvitationDB {
       {
          die("Connection Failed");
       }
+      $invcode = mysqli_real_escape_string($conn, $invcode);
       $sql = "SELECT t.status from ".self::INV_TB. " as t Where `invitation_code`='{$invcode}'";
       $query = $conn->query($sql);
       if ($query === false) 
@@ -81,6 +84,8 @@ class InvitationDB {
       {
          die("Connection Failed");
       }
+      $inv = mysqli_real_escape_string($conn, $inv);
+      $status = mysqli_real_escape_string($conn, $status);
       $sql = "UPDATE ".self::INV_TB." SET `status`='{$status}' WHERE `invitation_code`='{$inv}'";
       $query = $conn->query($sql);
        $conn->close();

@@ -21,7 +21,7 @@ class DBUtility
          die("Connection Failed");
       }
       // statement to execute
-
+      $name = mysqli_real_escape_string($conn, $name);
       $db_name = "huiji";
       $sql = 'SELECT `domain_id` AS `exists` FROM huiji.domain WHERE domain.domain_prefix=\''.$name.'\'';
       # echo  $sql;
@@ -63,6 +63,10 @@ class DBUtility
       {
          die("Connection Failed");
       }
+      $domainprefix = mysqli_real_escape_string($conn, $domainprefix);
+      $domainname = mysqli_real_escape_string($conn, $domainname);
+      $domaintype = mysqli_real_escape_string($conn, $domaintype);
+      $domaindsp = mysqli_real_escape_string($conn, $domaindsp);
       $sql = "INSERT INTO domain (domain_prefix, domain_name, domain_type, domain_dsp, domain_status) VALUES ('{$domainprefix}', '{$domainname}', '{$domaintype}', '{$domaindsp}', 'TRUE')";
      
       if ($conn->query($sql) === TRUE) {
@@ -101,6 +105,8 @@ class DBUtility
       $url = 'http://'.$domainprefix.'.huiji.wiki/wiki/$1';
       $api = 'http://'.$domainprefix.'.huiji.wiki/api.php';
 
+      $domainprefix = mysqli_real_escape_string($conn, $domainprefix);
+      $domainid = mysqli_real_escape_string($conn, $domainid);
       $sql = "INSERT INTO interwiki (iw_prefix, iw_url, iw_api, iw_wikiid, iw_local, iw_trans) VALUES ('{$domainprefix}', '{$url}', '{$api}', '{$domainid}', '1', '1')";
      
       if ($conn->query($sql) === TRUE) {
@@ -142,6 +148,7 @@ class DBUtility
          // statement to execute
 
          $db_name = "huiji_".str_replace(".","_",$name);
+         $db_name = mysqli_real_escape_string($conn, $db_name);
          $sql = "DROP DATABASE IF EXISTS ".$db_name;
          if ($conn->query($sql) === TRUE) {
             $conn->close();
