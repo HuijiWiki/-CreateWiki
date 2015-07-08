@@ -118,7 +118,7 @@ class CreateWiki{
         // too long
         $status = ErrorMessage::ERROR_DOMAIN_TOO_LONG;
     }
-    elseif( preg_match($reg, $domain) !== 1){
+    elseif( preg_match($reg, $domain) !== 1 && Confidential::IS_PRODUCTION){
         $status = ErrorMessage::ERROR_DOMAIN_INVALID_CHAR;
     }
     elseif ( strpos ($domain, '.') !== false && Confidential::IS_PRODUCTION ) {
