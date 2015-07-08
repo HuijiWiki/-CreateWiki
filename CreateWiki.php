@@ -103,7 +103,7 @@ class CreateWiki{
     
     public function checkRule($name, $domain, $venue=null, $language=null, $type=null){
         $status = 0;
-        $reg = "/[A-Za-z0-9]+/i";
+        $reg = "/[A-Za-z0-9][A-Za-z0-9_-]*/i";
 
 
     if( strlen( $domain ) === 0 ) {
