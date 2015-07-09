@@ -238,9 +238,9 @@ class CreateWiki{
      */
     public function removeWikiInstall($domainprefix, $wikiname){
         if (Confidential::IS_PRODUCTION){
-            //Don't ever drop a db in production server, just mark it as unavailable.
+            DBUtitlity::dropDB($domainprefix);
         } else {
-            DBUtility::dropDB('huiji_'.str_replace('.', '_', $domainprefix));
+            DBUtility::dropDB($domainprefix);
         }
         
     }

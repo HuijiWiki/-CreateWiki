@@ -6,9 +6,9 @@
  * and open the template in the editor.
  */
 
-require_once('CreateWiki.php');
-$wiki = new CreateWiki('jiba.test', 'jiba','porn','woaidajiba');
-$ret = $wiki->create();
+require_once('DBUtility.php');
+
+$ret = DBUtitlity::dropTableWithPrefix('test001');
 echo $ret;
 
 ?>

@@ -131,14 +131,14 @@ class DBUtility
       $conn->close();
    }
    
-   /**drop a DB. TODO: Change this to "drop a bunch of tables".
+   /**drop a DB. 
     * 
     * @param type $name the domain prefix
     * @return Boolean. True if sucessful False if not. 
     */
    public static function dropDB($name){
       if (Confidential::IS_PRODUCTION){
-         //TODO
+         return self::dropTablesWithPrefix($name);
       } else{
          $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd);
          if($conn->connect_error)
@@ -161,6 +161,36 @@ class DBUtility
       }
 
       
+      }
+   /**drop a table with given prefix.
+    *
+    * @param type $prefix the domain prefix
+    * @return Boolean. True if sucessful False if not. 
+    */
+   
+   public static function dropTablesWithPrefix($prefix){
+
+      $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd);
+      if($conn->connect_error)
+      {
+         die("Connection Failed");
+      }
+
+      $db_name = "huiji_sites";
+      $prefix = mysqli_real_escape_string($conn, $prefix);
+      $sql = "SELECT CONCAT( \'DROP TABLE \', GROUP_CONCAT(table_name) , \';\' ) \n"
+    . " AS statement FROM information_schema.tables \n"
+    . " WHERE table_schema = \'".$db_name."\' AND table_name LIKE \'.".$prefix.".%\'";
+      $ret = false;
+      try{
+         $result = $conn->query($sql);
+         $ret = $conn->query($result); 
+      }  catch(Exception $e){
+         echo "Error: ". "Error: " . $sql . "<br>" . $conn->error;
+      } 
+      $conn->close();
+      return $ret;
+
    }
 }
 ?>
