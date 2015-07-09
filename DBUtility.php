@@ -170,7 +170,7 @@ class DBUtility
    
    public static function dropTablesWithPrefix($prefix){
 
-      $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd);
+    $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd);
       if($conn->connect_error)
       {
          die("Connection Failed");
@@ -178,19 +178,22 @@ class DBUtility
 
       $db_name = "huiji_sites";
       $prefix = mysqli_real_escape_string($conn, $prefix);
-      $sql = "SELECT CONCAT( \'DROP TABLE \', GROUP_CONCAT(table_name) , \';\' ) \n"
+      $sql = "SELECT CONCAT( 'DROP TABLE ', GROUP_CONCAT(table_name) , ';' ) \n"
     . " AS statement FROM information_schema.tables \n"
-    . " WHERE table_schema = \'".$db_name."\' AND table_name LIKE \'.".$prefix.".%\'";
-      $ret = false;
-      try{
-         $result = $conn->query($sql);
-         $ret = $conn->query($result); 
-      }  catch(Exception $e){
-         echo "Error: ". "Error: " . $sql . "<br>" . $conn->error;
-      } 
+    . " WHERE table_schema = '".$db_name."' AND table_name LIKE '".$prefix."%'";
+      $result = $conn->query($sql);
+      $row = $result->fetch_row();
+      $result->close();
+      mysqli_select_db($conn, $db_name);
+      if( $conn->query($row[0])){
+             $conn->close();
+             return true;
+      }
+      echo "Error:" . $conn->error;
       $conn->close();
-      return $ret;
+      return false;
 
    }
+
 }
 ?>
