@@ -30,7 +30,6 @@ require_once('Invitation.php');
 // error_reporting(E_ALL);
 // ini_set('display_errors', '1');
 header('Content-type: text/html; charset=utf-8');
-
 $domainprefix = $_POST["domainprefix"];
 $domainprefix = strtolower ( $domainprefix ); //domain name should be case in sensitive here.
 $wikiname = $_POST["wikiname"];
@@ -72,6 +71,7 @@ elseif($ret == 0){
     $i = 7;
     $wiki->showProgress($i);
     Invitation::expireInvitation($invcode);
+    $wiki->enableES();
     echo '<script type="text/javascript">window.location="http://'.$domainprefix.'.huiji.wiki";</script>';
     // header('Location: http://'.$domainprefix.'.huiji.wiki');
 }

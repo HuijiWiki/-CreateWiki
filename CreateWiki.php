@@ -244,7 +244,19 @@ class CreateWiki{
         }
         
     }
-    
+   
+    public function enableES(){
+	$localPreix = strtolower($this->domainprefix);
+	$localConf = '/var/www/virtual/'.$localPreix.'/LocalSettings.php';
+	$linkSrcCmd = 'ln -s /var/www/src/* /var/www/virtual/'.$localPreix.'/';
+	exec($linkSrcCmd);
+	$createESIndex = "php /var/www/src/extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --conf=".$localConf;
+	exec($createESIndex);
+	$bootstrapES_noLinks = "php /var/www/src/extensions/CirrusSearch/maintenance/forceSearchIndex.php --skipLinks --indexOnSkip --conf=".$localConf.' &';
+	exec($bootstrapES_noLinks);
+	$bootstrapES_links = "php /var/www/src/extensions/CirrusSearch/maintenance/forceSearchIndex.php --skipParse --conf=".$localConf.' &'; 
+	exec($bootstrapES_links);
+    }
     
     /**Check the current user session
          * 
