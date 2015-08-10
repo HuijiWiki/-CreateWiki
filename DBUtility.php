@@ -4,11 +4,6 @@
 require_once('Confidential.php');
 class DBUtility
 {
-
-
-
-  
-
    /** 
    *Version 0.0.1 check in the data base whether the domain user wants to take
    *$name : domain name 
@@ -187,13 +182,58 @@ class DBUtility
       mysqli_select_db($conn, $db_name);
       if( $conn->query($row[0])){
              $conn->close();
+	     self::dropRelatedTables($prefix);
              return true;
       }
+      self::dropRelatedTables($prefix);
       echo "Error:" . $conn->error;
       $conn->close();
       return false;
 
    }
+  /**
+   * Drop entries in interwiki/domain/user_site_follow tables
+   *
+   */
+  public static function dropRelatedTables($prefix){
+	$db_name = "huiji";
+        $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd, $db_name);
+            if($conn->connect_error)
+            {
+               die("Connection Failed");
+            }
+        $prefix = mysqli_real_escape_string($conn, $prefix);
+        $arr = array (array(
+                    'tbname' =>'interwiki',
+                    'param' => 'iw_prefix',
+                    'condition' => $prefix
+                ),
+                array(
+                    'tbname' =>'domain',
+                    'param' => 'domain_prefix',
+                    'condition' => $prefix
+                ),
+                array(
+                    'tbname' =>'user_site_follow',
+                    'param' => 'f_wiki_domain',
+                    'condition' => $prefix
+                ));
+        foreach ($arr as $key => $value) {
+            
+            $sql = "DELETE from ".$value['tbname']." WHERE '".$value['param']."' = '".$value['condition']. "'";
+            $res = $conn->query($sql);
+            if( $res ){
+                $conn->close();
+                return true;
+            }else{
+                echo 'error:'.$conn->error;
+                $conn->close();
+                return false;
+            }
+            
+        }
+
+  }
 
 }
 ?>
