@@ -175,7 +175,7 @@ class DBUtility
       {
          die("Connection Failed");
       }
-
+      $conn->query("SET group_concat_max_len = 10000");
       $db_name = "huiji_sites";
       $prefix = mysqli_real_escape_string($conn, $prefix);
       $sql = "SELECT CONCAT( 'DROP TABLE ', GROUP_CONCAT(table_name) , ';' ) \n"
