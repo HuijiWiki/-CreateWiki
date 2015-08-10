@@ -8,7 +8,7 @@
 
 require_once('DBUtility.php');
 
-$ret = DBUtitlity::dropTableWithPrefix('test001');
+$ret = DBUtility::dropTableWithPrefix('dota2');
 echo $ret;
 
 ?>
