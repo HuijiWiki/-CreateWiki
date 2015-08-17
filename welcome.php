@@ -73,10 +73,11 @@ elseif($ret == 0){
     Invitation::expireInvitation($invcode);
     $wiki->enableES();
     echo '<script type="text/javascript">window.location="http://'.$domainprefix.'.huiji.wiki";</script>';
+    $i = 8;
+    $wiki->showProgress($i);
     // header('Location: http://'.$domainprefix.'.huiji.wiki');
 }
 else{
-    
     echo $ret;
 }
 
