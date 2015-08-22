@@ -271,7 +271,7 @@ class CreateWiki{
         {
             $ch = curl_init();
             if(Confidential::IS_PRODUCTION){
-                $api_end = 'http://home.huiji.wiki/api.php?action=query&format=xml&meta=userinfo';
+                $api_end = 'http://www.huiji.wiki/api.php?action=query&format=xml&meta=userinfo';
             }else{
                 $api_end = 'http://test.huiji.wiki/api.php?action=query&format=xml&meta=userinfo';
             }
@@ -309,7 +309,7 @@ class CreateWiki{
         $params = array('fromDomain'=>$fromDomain, 'targetDomain'=>$toDomain);
         $ch = curl_init();
         $param_url = http_build_query($params);
-        curl_setopt($ch, CURLOPT_URL, 'http://home.huiji.wiki:3000/service/mm?'.$param_url);
+        curl_setopt($ch, CURLOPT_URL, 'http://www.huiji.wiki:3000/service/mm?'.$param_url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         //curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
@@ -338,7 +338,7 @@ class CreateWiki{
         $ch = curl_init();
         $param_url = http_build_query($params);
         if (Confidential::IS_PRODUCTION){
-            curl_setopt($ch, CURLOPT_URL, 'http://home.huiji.wiki:3000/service/smp?'.$param_url);
+            curl_setopt($ch, CURLOPT_URL, 'http://www.huiji.wiki:3000/service/smp?'.$param_url);
         } else {
             curl_setopt($ch, CURLOPT_URL, 'http://test.huiji.wiki:3000/service/smp?'.$param_url);
         }
