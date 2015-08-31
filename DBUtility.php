@@ -50,7 +50,7 @@ class DBUtility
    *
    */
 
-   public static function insertGlobalDomainPrefix($domainprefix, $domainname, $domaintype, $domaindsp, $foundername, $founderid){
+   public static function insertGlobalDomainPrefix($domainprefix, $domainname, $domaintype, $domaindsp, $founderid, $foundername){
       //huiji_domain_all is the database to store the huiji_domain_all . 
       $db_name = 'huiji';
       $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd, $db_name);
