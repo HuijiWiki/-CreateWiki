@@ -100,7 +100,7 @@ class CreateWiki{
         }
         else if($this->manifestName === "internal"){
            // $manifestChoice = "Manifest:灰机基础包";
-            $this->migrateInitialManifest($domainprefix);
+            $this->migrateInitialManifest($this->domainprefix);
         }
         else if($manifest === "external"){
             $fromDomain = $_POST["fromDomain"]; //get the wikia site to get the nav bar informaiton
@@ -111,7 +111,7 @@ class CreateWiki{
         $this->showProgress($i);
         $this->enableES();
         $i = 8;
-        $wiki->showProgress($i);
+        $this->showProgress($i);
         // header('Location: http://'.$domainprefix.'.huiji.wiki');
     
         
