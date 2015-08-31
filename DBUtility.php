@@ -50,7 +50,7 @@ class DBUtility
    *
    */
 
-   public static function insertGlobalDomainPrefix($domainprefix, $domainname, $domaintype, $domaindsp){
+   public static function insertGlobalDomainPrefix($domainprefix, $domainname, $domaintype, $domaindsp, $foundername, founderid){
       //huiji_domain_all is the database to store the huiji_domain_all . 
       $db_name = 'huiji';
       $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd, $db_name);
@@ -62,8 +62,11 @@ class DBUtility
       $domainname = mysqli_real_escape_string($conn, $domainname);
       $domaintype = mysqli_real_escape_string($conn, $domaintype);
       $domaindsp = mysqli_real_escape_string($conn, $domaindsp);
-      $sql = "INSERT INTO domain (domain_prefix, domain_name, domain_type, domain_dsp, domain_status) VALUES ('{$domainprefix}', '{$domainname}', '{$domaintype}', '{$domaindsp}', 'TRUE')";
-     
+      $foundername = mysqli_real_escape_string($conn, $foundername);
+      $founderid = mysqli_real_escape_string($conn, $founderid);
+      $date = date( 'Y-m-d H:i:s' );
+      $sql = "INSERT INTO domain (domain_prefix, domain_name, domain_type, domain_dsp, domain_status, domain_founder_id, domain_founder_name, domain_date)
+        VALUES ('{$domainprefix}', '{$domainname}', '{$domaintype}', '{$domaindsp}', 'TRUE', '{$founderid}', '{$foundername}', {$date})";
       if ($conn->query($sql) === TRUE) {
          $last_id = $conn->insert_id;
          $conn->close();
