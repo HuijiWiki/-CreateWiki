@@ -100,7 +100,7 @@ class CreateWiki{
         }
         else if($this->manifestName === "internal"){
            // $manifestChoice = "Manifest:灰机基础包";
-            $wiki->migrateInitialManifest($domainprefix);
+            $this->migrateInitialManifest($domainprefix);
         }
         else if($manifest === "external"){
             $fromDomain = $_POST["fromDomain"]; //get the wikia site to get the nav bar informaiton
