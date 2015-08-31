@@ -9,6 +9,7 @@ class CreateWiki{
     public $domaindsp; 
     private $founderid;
     private $foundername;
+    private $manifestName;
 
 
     private $steps = array(
@@ -31,12 +32,12 @@ class CreateWiki{
      * @param type $type wiki type
      * @param type $dsp wiki description
      */
-    public function __construct($prefix, $name, $type, $dsp , $template){
+    public function __construct($prefix, $name, $type, $dsp , $manifestName){
         $this->domainprefix = $prefix;
         $this->wikiname = $name;
         $this->domaintype = $type;
         $this->domaindsp = $dsp;
-        $this->template = $template;
+        $this->manifestName = $manifestName;
     }
     
     /** Create a complete working sub wiki
@@ -93,6 +94,26 @@ class CreateWiki{
         $this->promote($this->domainprefix, $sessionRet);
         $i = 6;
         $this->showProgress($i);
+
+        if($this->manifestName === "empty"){
+
+        }
+        else if($this->manifestName === "internal"){
+           // $manifestChoice = "Manifest:灰机基础包";
+            $wiki->migrateInitialManifest($domainprefix);
+        }
+        else if($manifest === "external"){
+            $fromDomain = $_POST["fromDomain"]; //get the wikia site to get the nav bar informaiton
+            $toDomain = $this->domainprefix.".huiji.wiki";
+            $this->migrateWikia($fromDomain, $toDomain);
+        }
+        $i = 7;
+        $this->showProgress($i);
+        $this->enableES();
+        $i = 8;
+        $wiki->showProgress($i);
+        // header('Location: http://'.$domainprefix.'.huiji.wiki');
+    
         
         // $this->migrateInitialTemplate($this->domainprefix, $this->template);
 

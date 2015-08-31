@@ -46,7 +46,7 @@ if($invCheck == ErrorMessage::INV_NOT_FOUND){
 if($invCheck == ErrorMessage::INV_USED){
     die("The invitation code has expired");
 }
-$wiki = new CreateWiki($domainprefix, $wikiname, $type, $dsp);
+$wiki = new CreateWiki($domainprefix, $wikiname, $type, $dsp, $manifest);
 $ret = $wiki->create();
 if($ret == ErrorMessage::ERROR_NOT_LOG_IN){
 	if (Confidential::IS_PRODUCTION){
@@ -55,27 +55,9 @@ if($ret == ErrorMessage::ERROR_NOT_LOG_IN){
 		echo '<script type="text/javascript">window.location="http://test.huiji.wiki/wiki/%E7%89%B9%E6%AE%8A:%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95";</script>';
 	}
 }
-elseif($ret == 0){
-    if($manifest === "empty"){
-
-    }
-    else if($manifest === "internal"){
-       // $manifestChoice = "Manifest:灰机基础包";
-        $wiki->migrateInitialManifest($domainprefix);
-    }
-    else if($manifest === "external"){
-        $fromDomain = $_POST["fromDomain"]; //get the wikia site to get the nav bar informaiton
-	    $toDomain = $domainprefix.".huiji.wiki";
-	    $wiki->migrateWikia($fromDomain, $toDomain);
-    }
-    $i = 7;
-    $wiki->showProgress($i);
+elseif ($ret == 0){
     Invitation::expireInvitation($invcode);
-    $wiki->enableES();
     echo '<script type="text/javascript">window.location="http://'.$domainprefix.'.huiji.wiki";</script>';
-    $i = 8;
-    $wiki->showProgress($i);
-    // header('Location: http://'.$domainprefix.'.huiji.wiki');
 }
 else{
     echo $ret;

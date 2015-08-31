@@ -66,7 +66,7 @@ class DBUtility
       $founderid = mysqli_real_escape_string($conn, $founderid);
       $date = date( 'Y-m-d H:i:s' );
       $sql = "INSERT INTO domain (domain_prefix, domain_name, domain_type, domain_dsp, domain_status, domain_founder_id, domain_founder_name, domain_date)
-        VALUES ('{$domainprefix}', '{$domainname}', '{$domaintype}', '{$domaindsp}', 'TRUE', '{$founderid}', '{$foundername}', {$date})";
+        VALUES ('{$domainprefix}', '{$domainname}', '{$domaintype}', '{$domaindsp}', 'TRUE', '{$founderid}', '{$foundername}', '{$date}')";
       if ($conn->query($sql) === TRUE) {
          $last_id = $conn->insert_id;
          $conn->close();
