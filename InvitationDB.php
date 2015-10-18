@@ -110,7 +110,7 @@ class InvitationDB {
          die("Connection Failed");
       }
       $num = mysqli_real_escape_string($conn, $num);
-      $sql = "SELECT invitation_code from ".self::INV_TB. " as code Where `status`= 1 LIMIT {$num} ORDER BY RAND()";
+      $sql = "SELECT invitation_code from ".self::INV_TB. " as code Where `status`= 1 ORDER BY RAND() LIMIT {$num} ";
       $query = $conn->query($sql); 
       if ($query === false) 
       {
