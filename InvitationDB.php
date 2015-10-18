@@ -98,4 +98,39 @@ class InvitationDB {
       }
       return true;
     }
+    /**
+     * get an array of available invitation code 
+     * @param number of invitation;
+     * @return mixed: error message or an array of strings (invitaiton code)
+     */
+    public static function getInv($num = 1){
+      $conn = mysqli_connect(Confidential::$servername,Confidential::$username,Confidential::$pwd, self::INV_DB);
+      if($conn->connect_error)
+      {
+         die("Connection Failed");
+      }
+      $invcode = mysqli_real_escape_string($conn, $invcode);
+      $sql = "SELECT invitation_code from ".self::INV_TB. " as code Where `status`= 1 LIMIT {$num}";
+      $query = $conn->query($sql); 
+      if ($query === false) 
+      {
+         echo $conn->error;
+         $conn->close();
+         return false;
+        
+      }
+
+      // extract the value
+      $conn->close();
+      $row = $query->fetch_object();
+      $inv = array();
+      if($row == null){
+          return ErrorMessage::INV_NOT_FOUND;
+      } else {
+          foreach ($row as $item){
+              $inv[] = $item;
+          }
+      }
+      return $inv;
+    }
 }
