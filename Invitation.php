@@ -48,5 +48,15 @@ class Invitation {
         
        
     }
+    
+    public static function getInvList($num){
+        $arr = InvitationDB::getInv($num);
+        $out = '<ul>';
+        foreach ($arr as $li){
+            $out .= '<li>'.$li.'</li>';
+        }
+        $out = '</ul>';
+        return $out;
+    }
 }
 ?>
