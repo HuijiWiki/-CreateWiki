@@ -51,11 +51,11 @@ class Invitation {
     
     public static function getInvList($num){
         $arr = InvitationDB::getInv($num);
-        $out = '<ul>';
+        $out = '<ul class="list-group">';
         foreach ($arr as $li){
-            $out .= '<li>'.$li.'</li>';
+            $out .= '<li class="list-group-item">'.$li.'</li>';
         }
-        $out = '</ul>';
+        $out .= '</ul>';
         return $out;
     }
 }
