@@ -132,7 +132,7 @@ class CreateWiki{
         $reg = "/[A-Za-z0-9][A-Za-z0-9-]*/i";
 
 
-    if( strlen( $domain ) === 0 ) {
+    if( strlen( $domain ) === 0 || empty($name) || empty($domain) ) {
         // empty field
         $status = ErrorMessage::ERROR_DOMAIN_IS_EMPTY;
     }
