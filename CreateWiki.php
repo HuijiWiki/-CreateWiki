@@ -433,6 +433,7 @@ class CreateWiki{
         $command = "php /var/www/virtual/".$domainprefix."/maintenance/update.php  --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --quick --doshared";
         exec($command);
         exec($command);
+        exec($command);
     }
     
     /**
