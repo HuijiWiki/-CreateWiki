@@ -250,7 +250,8 @@ class CreateWiki{
         if(!exec($install_cmd)){
             return ErrorMessage::ERROR_FAIL_EXE_INSTALL_CMD;
         }
-
+	$this->id = DBUtility::insertGlobalDomainPrefix($domainprefix, $wikiname, $domaintype, $domaindsp, $this->founderid, $this->foundername);
+        DBUtility::insertInterwikiPrefix($domainprefix, $this->id);
         return 0;
     }
     
