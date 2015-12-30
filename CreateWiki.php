@@ -262,7 +262,7 @@ class CreateWiki{
      */
     public function removeWikiInstall($domainprefix, $wikiname){
         if (Confidential::IS_PRODUCTION){
-            DBUtitlity::dropDB($domainprefix);
+            DBUtility::dropDB($domainprefix);
         } else {
             DBUtility::dropDB($domainprefix);
         }
