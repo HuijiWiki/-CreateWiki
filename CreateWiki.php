@@ -430,7 +430,7 @@ class CreateWiki{
     * $domainprefix : the domain prefix for the new wiki
     */
     public function updateDatabase($domainprefix){
-        $command = "php /var/www/virtual/".$domainprefix."/maintenance/update.php  --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --quick --doshared";
+        $command = "php /var/www/virtual/".$domainprefix."/maintenance/update.php  --conf=/var/www/virtual/".$domainprefix."/LocalSettings.php --quick";
         exec($command);
         exec($command);
         exec($command);
