@@ -92,6 +92,8 @@ class CreateWiki{
         $i = 5;
         $this->showProgress($i);
         $this->promote($this->domainprefix, $sessionRet);
+        // stop the process for 2 seconds, give system more time to update wiki.
+        sleep(2);
         $i = 6;
         $this->showProgress($i);
 
