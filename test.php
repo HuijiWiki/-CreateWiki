@@ -5,10 +5,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+if (php_sapi_name() === 'cli'){
+	require_once('DBUtility.php');
 
-require_once('DBUtility.php');
-
-$ret = DBUtility::dropTablesWithPrefix('dota2');
-echo $ret;
+	$ret = DBUtility::dropTablesWithPrefix('dota2');
+	echo $ret;
+}
 
 ?>
