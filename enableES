@@ -1,0 +1,5 @@
+#!/bin/bash
+# Enable Elasticsearch Index.
+php /var/www/src/extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --conf=$CONF
+php /var/www/src/extensions/CirrusSearch/maintenance/forceSearchIndex.php --skipLinks --indexOnSkip --conf=$CONF
+php /var/www/src/extensions/CirrusSearch/maintenance/forceSearchIndex.php --skipParse --conf=$CONF

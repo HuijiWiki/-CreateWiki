@@ -272,14 +272,16 @@ class CreateWiki{
     }
    
     public function enableES(){
-	$localPreix = strtolower($this->domainprefix);
-	$localConf = '/var/www/virtual/'.$localPreix.'/LocalSettings.php';
-	$createESIndex = "php /var/www/src/extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --conf=".$localConf;
-	exec($createESIndex);
-	$bootstrapES_noLinks = "php /var/www/src/extensions/CirrusSearch/maintenance/forceSearchIndex.php --skipLinks --indexOnSkip --conf=".$localConf.' &';
-	exec($bootstrapES_noLinks);
-	$bootstrapES_links = "php /var/www/src/extensions/CirrusSearch/maintenance/forceSearchIndex.php --skipParse --conf=".$localConf.' &'; 
-	exec($bootstrapES_links);
+	$localPrefix = strtolower($this->domainprefix);
+	$localConf = '/var/www/virtual/'.$localPrefix.'/LocalSettings.php';
+	putenv("CONF=$localConf");
+	exec("./enableES");
+	//$createESIndex = "php /var/www/src/extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --conf=".$localConf;
+	//exec($createESIndex);
+	//$bootstrapES_noLinks = "php /var/www/src/extensions/CirrusSearch/maintenance/forceSearchIndex.php --skipLinks --indexOnSkip --conf=".$localConf.' &';
+	//exec($bootstrapES_noLinks);
+	//$bootstrapES_links = "php /var/www/src/extensions/CirrusSearch/maintenance/forceSearchIndex.php --skipParse --conf=".$localConf.' &'; 
+	//exec($bootstrapES_links);
     }
     
     /**Check the current user session
