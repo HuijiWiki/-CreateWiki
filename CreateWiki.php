@@ -496,6 +496,7 @@ class CreateWiki{
     *
     */
     public function showProgress($current){
+    	set_time_limit ( 120 );
         $percent = intval($current/count($this->steps) * 100)."%";
         echo '<script type="text/javascript">document.getElementById("progress").innerHTML="<div class=\"progress-bar\" style=\"width:'.$percent.';\">&nbsp;</div>";
                 $("#information").prepend("<h3 id=\"step_'.$current.'\">'.$this->steps[$current].'</h3>");
