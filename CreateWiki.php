@@ -274,8 +274,8 @@ class CreateWiki{
     public function enableES(){
 	$localPrefix = strtolower($this->domainprefix);
 	$localConf = '/var/www/virtual/'.$localPrefix.'/LocalSettings.php';
-	putenv("CONF=$localConf");
-	exec("./enableES");
+	//putenv("CONF=$localConf");
+	shell_exec("export CONF=$localConf ./enableES > /dev/null 2>/dev/null &");
 	//$createESIndex = "php /var/www/src/extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --conf=".$localConf;
 	//exec($createESIndex);
 	//$bootstrapES_noLinks = "php /var/www/src/extensions/CirrusSearch/maintenance/forceSearchIndex.php --skipLinks --indexOnSkip --conf=".$localConf.' &';
